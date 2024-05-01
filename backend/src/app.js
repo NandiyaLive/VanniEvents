@@ -4,6 +4,7 @@ import compression from "compression";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
+import connectDB from "@/database/config";
 
 const app = express();
 
@@ -23,3 +24,5 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log("Server is running on port", PORT);
 });
+
+connectDB()
