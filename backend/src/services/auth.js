@@ -30,8 +30,13 @@ const generateToken = async (user) => {
   });
 };
 
+const decodedToken = (token) => {
+  return jwt.verify(token, JWT_SECRET);
+};
+
 export const authService = {
   register,
   login,
   generateToken,
+  decodedToken,
 };

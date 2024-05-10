@@ -9,7 +9,7 @@ user.get("/", userController.getAllUsers);
 
 user.get("/:id", userController.getUserById);
 
-user.put("/:id", validateData(registrationSchema), userController.updateUser);
+user.patch("/:id", userController.updateUser);
 
 user.delete("/:id", userController.deleteUser);
 

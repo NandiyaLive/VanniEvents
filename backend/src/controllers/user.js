@@ -38,8 +38,10 @@ const updateUser = async (req, res) => {
   const user = req.user;
 
   try {
-    const user = await userService.updateUser(id, payload, user);
-    res.status(200).json(user);
+    const updatedUser = await userService.updateUser(id, payload, user);
+    delete updatedUser.password;
+    
+    res.status(200).json(updatedUser);
   } catch (error) {
     errorHandler(error, res);
   }

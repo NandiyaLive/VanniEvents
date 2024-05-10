@@ -1,6 +1,7 @@
 const errorHandler = (err, res) => {
   if (err.name === "ZodError") {
     const errorMessages = err.errors.map((issue) => ({
+      error: "Validation Error",
       field: issue.path.join("."),
       message: issue.message,
     }));

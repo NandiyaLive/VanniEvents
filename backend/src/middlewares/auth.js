@@ -1,3 +1,4 @@
+import Club from "@/models/club";
 import User from "@/models/user";
 import { JWT_SECRET } from "@/utils/config";
 import jwt from "jsonwebtoken";
@@ -35,7 +36,7 @@ const authenticate = async (req, res, next) => {
 };
 
 const superAdminProtect = async (req, res, next) => {
-  if (!req.user.role || req.user.role !== "superadmin") {
+  if (!req.user?.role || req.user.role !== "superadmin") {
     return res
       .status(403)
       .json({ message: "You are not permitted to access this resource" });
@@ -54,4 +55,25 @@ const adminProtect = async (req, res, next) => {
   next();
 };
 
-export { adminProtect, authenticate, superAdminProtect };
+const clubAdminProtect = async (req, res, next) => {
+  if (!req.user.role || req.user.role !== "admin") {
+    return res
+      .status(403)
+      .json({ message: "You are not permitted to access this resource" });
+  }
+
+  const clubId = req.params.id;
+  const userId = req.user._id;
+
+  const isClubAdmin = await Club.findById(clubId).where("admins").in([userId]);
+
+  if (!isClubAdmin) {
+    return res
+      .status(403)
+      .json({ message: "You are not permitted to access this resource" });
+  }
+
+  next();
+};
+
+export { adminProtect, authenticate, superAdminProtect, clubAdminProtect };

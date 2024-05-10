@@ -1,9 +1,10 @@
-import { authenticate } from "@/middlewares/auth";
-
+import { authenticate, superAdminProtect } from "@/middlewares/auth";
 import express from "express";
 
 import authRoutes from "./auth";
 import userRoutes from "./user";
+import clubRoutes from "./club";
+import eventRoutes from "./event";
 
 const router = express.Router();
 
@@ -20,5 +21,7 @@ router.get("/", (req, res) => {
 
 router.use("/auth", authRoutes);
 router.use("/users", authenticate, userRoutes);
+router.use("/clubs", authenticate, superAdminProtect, clubRoutes);
+router.use("/events", eventRoutes);
 
 export default router;

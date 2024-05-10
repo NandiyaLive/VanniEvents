@@ -12,9 +12,10 @@ const validateData = (validationSchema) => {
           message: issue.message,
         }));
 
-        res
-          .status(400)
-          .json({ error: "Validation Error", messages: errorMessages });
+        res.status(400).json({
+          error: "Validation Error",
+          messages: errorMessages,
+        });
       } else {
         res.status(500).json({ error: "Internal Server Error" });
       }

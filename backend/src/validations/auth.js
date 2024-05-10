@@ -3,9 +3,10 @@ import { z } from "zod";
 
 const PASSWORD_REGEX =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&^()._*?]{8,30}$/;
+  
 const REG_NO_REGEX = /^[0-9]{4}\/[A-Z]{2,4}\/[0-9]{1,3}$/;
 
-const registrationSchema = z
+export const registrationSchema = z
   .object({
     name: z.string().min(1),
     username: z.string().min(1),
@@ -50,10 +51,7 @@ const registrationSchema = z
     }
   });
 
-const loginSchema = z.object({
+export const loginSchema = z.object({
   email: z.string().email().min(1, { message: "Email is required" }),
   password: z.string().min(1, { message: "Password is required" }),
 });
-
-export { loginSchema, registrationSchema };
-

@@ -13,12 +13,12 @@ const getUserByEmail = async (email) => {
 };
 
 const updateUser = async (id, payload, user) => {
-  if(payload.role === 'superadmin' && user.role !== 'superadmin') {
-    throw new Error('You are not permitted to assign this role');
+  if (payload.role === "superadmin" && user.role !== "superadmin") {
+    throw new Error("You are not permitted to assign this role");
   }
 
-  if (payload.role === 'admin' && user.role !== 'superadmin') {
-    throw new Error('You are not permitted to assign this role');
+  if (payload.role === "admin" && user.role !== "superadmin") {
+    throw new Error("You are not permitted to assign this role");
   }
 
   return await User.findByIdAndUpdate(id, payload, { new: true });
@@ -28,10 +28,21 @@ const deleteUser = async (id) => {
   return await User.findByIdAndDelete(id);
 };
 
+const checkUserRole = async (userId, role) => {
+  const user = await getUserById(userId);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return user.role === role;
+};
+
 export const userService = {
   getAllUsers,
   getUserById,
   getUserByEmail,
   updateUser,
   deleteUser,
+  checkUserRole,
 };
