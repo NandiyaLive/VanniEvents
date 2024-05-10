@@ -4,7 +4,8 @@
   "description": "An events platform built with Node.js, Express, and MongoDB",
   "main": "src/app.js",
   "scripts": {
-    "start": "nodemon --exec babel-node src/app.js"
+    "dev": "nodemon --exec babel-node src/app.js",
+    "start": "node --exec babel-node src/app.js"
   },
   "author": "Neranjana Prasad",
   "license": "ISC",
