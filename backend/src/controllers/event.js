@@ -1,4 +1,4 @@
-import * as eventService from "@/models/event";
+import { eventService } from "@/services/event";
 
 const createEvent = async (req, res) => {
   const payload = req.body;

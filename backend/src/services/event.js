@@ -1,7 +1,15 @@
 import Event from "@/models/event";
 
 const createEvent = async (event) => {
-  return await Event.create(event);
+  const data = {
+    ...event,
+    organizer: event.clubId,
+  }
+  delete data.clubId;
+
+  console.log(data)
+
+  return await Event.create(data);
 };
 
 const getEvents = async () => {
@@ -9,18 +17,37 @@ const getEvents = async () => {
 };
 
 const getEventById = async (id) => {
+  if (!id) {
+    throw new Error("Event ID is required");
+  }
+  
   return await Event.findById(id);
 };
 
 const updateEvent = async (id, event) => {
+  if (!id) {
+    throw new Error("Event ID is required");
+  }
+
   return await Event.findByIdAndUpdate(id, event, { new: true });
 };
 
 const deleteEvent = async (id) => {
+  if (!id) {
+    throw new Error("Event ID is required");
+  }
+
   return await Event.findByIdAndDelete(id);
 };
 
 const addAttendee = async (eventId, userId) => {
+  if (!eventId) {
+    throw new Error("Event ID is required");
+  }
+  if (!userId) {
+    throw new Error("User ID is required");
+  }
+
   return await Event.findByIdAndUpdate(
     eventId,
     { $push: { attendees: userId } },
@@ -29,6 +56,13 @@ const addAttendee = async (eventId, userId) => {
 };
 
 const removeAttendee = async (eventId, userId) => {
+  if (!eventId) {
+    throw new Error("Event ID is required");
+  }
+  if (!userId) {
+    throw new Error("User ID is required");
+  }
+
   return await Event.findByIdAndUpdate(
     eventId,
     { $pull: { attendees: userId } },
@@ -37,6 +71,10 @@ const removeAttendee = async (eventId, userId) => {
 };
 
 const getAttendees = async (eventId) => {
+  if (!eventId) {
+    throw new Error("Event ID is required");
+  }
+
   return await Event.findById(eventId).populate("attendees");
 };
 

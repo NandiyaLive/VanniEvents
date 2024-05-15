@@ -1,5 +1,5 @@
-import Club from "@/models/club";
 import User from "@/models/user";
+import { clubService } from "@/services/club";
 import { JWT_SECRET } from "@/utils/config";
 import jwt from "jsonwebtoken";
 
@@ -37,9 +37,14 @@ const authenticate = async (req, res, next) => {
 
 const superAdminProtect = async (req, res, next) => {
   if (!req.user?.role || req.user.role !== "superadmin") {
-    return res
-      .status(403)
-      .json({ message: "You are not permitted to access this resource" });
+    return res.status(403).json({
+      user: {
+        id: req.user._id,
+        email: req.user.email,
+        role: req.user.role,
+      },
+      message: "You have to be a super admin to access this resource",
+    });
   }
 
   next();
@@ -47,9 +52,14 @@ const superAdminProtect = async (req, res, next) => {
 
 const adminProtect = async (req, res, next) => {
   if (!req.user.role || req.user.role !== "admin") {
-    return res
-      .status(403)
-      .json({ message: "You are not permitted to access this resource" });
+    return res.status(403).json({
+      user: {
+        id: req.user._id,
+        email: req.user.email,
+        role: req.user.role,
+      },
+      message: "You have to be a super admin to access this resource",
+    });
   }
 
   next();
@@ -57,23 +67,33 @@ const adminProtect = async (req, res, next) => {
 
 const clubAdminProtect = async (req, res, next) => {
   if (!req.user.role || req.user.role !== "admin") {
-    return res
-      .status(403)
-      .json({ message: "You are not permitted to access this resource" });
+    return res.status(403).json({
+      user: {
+        id: req.user._id,
+        email: req.user.email,
+        role: req.user.role,
+      },
+      message: "You have to be an club admin to access this resource",
+    });
   }
 
-  const clubId = req.params.id;
+  const { clubId } = req.body;
   const userId = req.user._id;
 
-  const isClubAdmin = await Club.findById(clubId).where("admins").in([userId]);
+  const isClubAdmin = await clubService.checkAdmin(clubId, userId);
 
   if (!isClubAdmin) {
-    return res
-      .status(403)
-      .json({ message: "You are not permitted to access this resource" });
+    return res.status(403).json({
+      user: {
+        id: req.user._id,
+        email: req.user.email,
+        role: req.user.role,
+      },
+      message: "You have to be an club admin to access this resource",
+    });
   }
 
   next();
 };
 
-export { adminProtect, authenticate, superAdminProtect, clubAdminProtect };
+export { adminProtect, authenticate, clubAdminProtect, superAdminProtect };

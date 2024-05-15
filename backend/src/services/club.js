@@ -1,5 +1,6 @@
 import Club from "@/models/club";
 import { userService } from "./user";
+import { eventService } from "./event";
 
 const createClub = async (club) => {
   return await Club.create(club);
@@ -42,10 +43,50 @@ const addAdmin = async (clubId, userId) => {
 };
 
 const getAdmins = async (clubId) => {
-  return await Club.findById(clubId).populate("admins");
+  const data = await Club.findById(clubId).populate("admins");
+  const admins = data.admins.map((admin) => ({
+    id: admin._id.toString(),
+    name: admin.name,
+    username: admin.username,
+    email: admin.email,
+  }));
+
+  return admins;
+};
+
+const checkAdmin = async (clubId, userId) => {
+  if (!userId) {
+    throw new Error("User ID is required");
+  }
+  if (!clubId) {
+    throw new Error("Club ID is required");
+  }
+
+  const admins = await getAdmins(clubId);
+
+  if (!admins) {
+    throw new Error("No admins found");
+  }
+
+  const isAdmin = admins.find((admin) => admin.id == userId);
+
+  return isAdmin;
 };
 
 const removeAdmin = async (clubId, userId) => {
+  if (!userId) {
+    throw new Error("User ID is required");
+  }
+  if (!clubId) {
+    throw new Error("Club ID is required");
+  }
+
+  const isAdmin = await getAdmins(clubId).includes(userId);
+
+  if (!isAdmin) {
+    throw new Error("User is not an admin");
+  }
+
   return await Club.findByIdAndUpdate(
     clubId,
     { $pull: { admins: userId } },
@@ -54,6 +95,12 @@ const removeAdmin = async (clubId, userId) => {
 };
 
 const addEvent = async (clubId, eventId) => {
+  const event = await eventService.getEventById(eventId);
+
+  if (!event) {
+    throw new Error("Event not found");
+  }
+
   return await Club.findByIdAndUpdate(
     clubId,
     { $push: { events: eventId } },
@@ -82,6 +129,7 @@ export const clubService = {
   deleteClub,
   addAdmin,
   getAdmins,
+  checkAdmin,
   removeAdmin,
   addEvent,
   getEvents,
