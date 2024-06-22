@@ -14,10 +14,13 @@ const validateData = (validationSchema) => {
 
         res.status(400).json({
           error: "Validation Error",
+          from: "Zod",
           messages: errorMessages,
         });
       } else {
-        res.status(500).json({ error: "Internal Server Error" });
+        res
+          .status(500)
+          .json({ error: "Internal Server Error", message: error.message });
       }
     }
   };

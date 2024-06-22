@@ -41,12 +41,24 @@ const UserSchema = new Schema(
     },
     faculty: {
       type: String,
-      enum: FACULTIES,
+      enum: FACULTIES.map((faculty) => faculty.name),
+    },
+    department: {
+      type: String,
+      enum: FACULTIES.reduce((acc, faculty) => {
+        return acc.concat(faculty.departments);
+      }, []).map((department) => department),
     },
     meal_pref: {
       type: String,
       enum: MEAL_PREF,
     },
+    tickets: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Ticket",
+      },
+    ],
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

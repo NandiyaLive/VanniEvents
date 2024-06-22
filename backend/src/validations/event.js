@@ -6,21 +6,22 @@ export const eventSchema = z.object({
   slug: z.string().min(1, { message: "Slug is required" }),
   description: z.string().min(1, { message: "Description is required" }),
   guidelines: z.string().optional(),
-  date: z.date().min(new Date(), { message: "Date is required" }),
+  date: z.string().min(1, { message: "Date is required" }),
   time: z.string().min(1, { message: "Time is required" }),
   venue: z.string().min(1, { message: "Venue is required" }),
   seats: z.number().int().min(1, { message: "Seats is required" }),
-  crietria: z.array(
+  crietrias: z.array(
     z.object({
       crietria: z.string().min(1, { message: "Crietria is required" }),
-      values: z.array(z.string().min(1, { message: "Values is required" })),
+      values: z.array(z.string().min(1, { message: "Values are required" })),
     })
   ),
   reg_start: z
-    .date()
-    .min(new Date(), { message: "Registartion start date is required" }),
-  dealine: z.date().min(new Date(), { message: "Deadline is required" }),
+    .string()
+    .min(1, { message: "Registartion start date is required" }),
+  dealine: z.string().min(1, { message: "Deadline is required" }),
   enabled: z.boolean().default(true),
-  attendees: z.array(z.string()),
-  organizer: z.string().min(1, { message: "Organizer is required" }),
+  attendees: z.array(z.string()).optional(),
+  partners: z.array(z.string()).optional(),
+  clubId: z.string().min(1, { message: "Club ID is required" }),
 });

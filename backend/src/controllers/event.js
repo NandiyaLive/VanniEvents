@@ -48,7 +48,9 @@ const deleteEvent = async (req, res) => {
 
   try {
     await eventService.deleteEvent(id);
-    res.status(204).end();
+    res.status(204).json({
+      message: "Event deleted successfully",
+    });
   } catch (error) {
     res.status(404).json({ message: "Event not found" });
   }
@@ -67,8 +69,7 @@ const addAttendee = async (req, res) => {
 };
 
 const removeAttendee = async (req, res) => {
-  const { id } = req.params;
-  const { userId } = req.body;
+  const { id, userId } = req.params;
 
   try {
     const event = await eventService.removeAttendee(id, userId);

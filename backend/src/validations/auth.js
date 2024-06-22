@@ -3,7 +3,7 @@ import { z } from "zod";
 
 const PASSWORD_REGEX =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&^()._*?]{8,30}$/;
-  
+
 const REG_NO_REGEX = /^[0-9]{4}\/[A-Z]{2,4}\/[0-9]{1,3}$/;
 
 export const registrationSchema = z
@@ -33,8 +33,11 @@ export const registrationSchema = z
     level: z.string().refine((level) => LEVEL.includes(level), {
       message: `Invalid level. Must be one of ${LEVEL.join(", ")}`,
     }),
-    faculty: z.string().refine((faculty) => FACULTIES.includes(faculty), {
-      message: `Invalid faculty. Must be one of ${FACULTIES.join(", ")}`,
+    faculty: z.string().min(1, {
+      message: "Faculty is required",
+    }),
+    department: z.string().min(1, {
+      message: "Department is required",
     }),
     meal_pref: z.union([
       z.string().refine((meal_pref) => MEAL_PREF.includes(meal_pref), {
@@ -45,9 +48,22 @@ export const registrationSchema = z
       z.undefined(),
     ]),
   })
-  .superRefine((data) => {
+  .superRefine((data, ctx) => {
     if (data.password !== data.confirmPassword) {
-      return { message: "Passwords do not match" };
+      ctx.addIssue({
+        path: ["confirmPassword"],
+        message: "Passwords do not match",
+      });
+    }
+
+    const FAC = data.faculty;
+    const DEPS = FACULTIES.find((f) => f.name === FAC).departments;
+
+    if (!DEPS.includes(data.department)) {
+      ctx.addIssue({
+        path: ["department"],
+        message: `Invalid department. Must be one of ${DEPS.join(", ")}`,
+      });
     }
   });
 

@@ -1,15 +1,40 @@
 import User from "@/models/user";
+import { hashPassword } from "./auth";
 
 const getAllUsers = async () => {
-  return await User.find();
+  const users = await User.find();
+
+  users.map((user) => {
+    user.password = undefined;
+  });
+
+  return users;
 };
 
 const getUserById = async (id) => {
-  return await User.findById(id);
+  const user = await User.findById(id);
+
+  if (user) {
+    user.password = undefined;
+  } else {
+    throw new Error("User not found");
+  }
+
+  return user;
 };
 
 const getUserByEmail = async (email) => {
-  return await User.findOne({ email });
+  const user = await User.findOne({
+    email,
+  });
+
+  if (user) {
+    user.password = undefined;
+  } else {
+    throw new Error("User not found");
+  }
+
+  return user;
 };
 
 const updateUser = async (id, payload, user) => {
@@ -19,6 +44,14 @@ const updateUser = async (id, payload, user) => {
 
   if (payload.role === "admin" && user.role !== "superadmin") {
     throw new Error("You are not permitted to assign this role");
+  }
+
+  if (payload.password) {
+    const { password } = payload;
+
+    const hash = hashPassword(password);
+
+    payload.password = hash;
   }
 
   return await User.findByIdAndUpdate(id, payload, { new: true });

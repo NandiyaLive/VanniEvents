@@ -3,11 +3,17 @@ import { JWT_SECRET, SALT_ROUNDS } from "@/utils/config.js";
 import { genSaltSync, hashSync } from "bcrypt";
 import jwt from "jsonwebtoken";
 
+const hashPassword = (password) => {
+  const salt = genSaltSync(SALT_ROUNDS);
+  const hash = hashSync(password, salt);
+
+  return hash;
+};
+
 const register = async (payload) => {
   const { password } = payload;
 
-  const salt = genSaltSync(SALT_ROUNDS);
-  const hash = hashSync(password, salt);
+  const hash = hashPassword(password);
 
   return await User.create({ ...payload, password: hash });
 };
@@ -39,4 +45,5 @@ export const authService = {
   login,
   generateToken,
   decodedToken,
+  hashPassword,
 };

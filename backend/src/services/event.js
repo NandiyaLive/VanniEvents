@@ -4,10 +4,8 @@ const createEvent = async (event) => {
   const data = {
     ...event,
     organizer: event.clubId,
-  }
+  };
   delete data.clubId;
-
-  console.log(data)
 
   return await Event.create(data);
 };
@@ -20,7 +18,7 @@ const getEventById = async (id) => {
   if (!id) {
     throw new Error("Event ID is required");
   }
-  
+
   return await Event.findById(id);
 };
 
@@ -63,11 +61,13 @@ const removeAttendee = async (eventId, userId) => {
     throw new Error("User ID is required");
   }
 
-  return await Event.findByIdAndUpdate(
+  const res = await Event.findByIdAndUpdate(
     eventId,
     { $pull: { attendees: userId } },
     { new: true }
   );
+
+  return res;
 };
 
 const getAttendees = async (eventId) => {
@@ -75,7 +75,15 @@ const getAttendees = async (eventId) => {
     throw new Error("Event ID is required");
   }
 
-  return await Event.findById(eventId).populate("attendees");
+  const event = await Event.findById(eventId);
+
+  return (await event.populate("attendees")).attendees.map((attendee) => {
+    return {
+      id: attendee.id,
+      name: attendee.name,
+      email: attendee.email,
+    };
+  });
 };
 
 export const eventService = {

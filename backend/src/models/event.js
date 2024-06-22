@@ -38,7 +38,7 @@ const EventSchema = new Schema({
       {
         crietria: {
           type: String,
-          enum: ["level", "faculty"],
+          enum: ["level", "faculty", "department"],
           required: true,
         },
         values: [
@@ -62,6 +62,10 @@ const EventSchema = new Schema({
   enabled: {
     type: Boolean,
     default: true,
+  },
+  auto_approve: {
+    type: Boolean,
+    default: false,
   },
   attendees: [
     {
