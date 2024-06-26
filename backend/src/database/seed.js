@@ -14,7 +14,7 @@ const seedDB = async () => {
       await User.create({
         name: "Super Admin",
         username: "superadmin",
-        email: "superadmin@vannievents.lku",
+        email: "superadmin@vannievents.lk",
         password: hash,
         role: "superadmin",
       });
