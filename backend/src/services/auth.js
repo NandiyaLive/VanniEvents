@@ -29,9 +29,9 @@ const login = async (payload) => {
 };
 
 const generateToken = async (user) => {
-  const { _id, email } = user;
+  const { _id, role } = user;
 
-  return jwt.sign({ userId: _id, email }, JWT_SECRET, {
+  return jwt.sign({ userId: _id, role }, JWT_SECRET, {
     expiresIn: "1d",
   });
 };
