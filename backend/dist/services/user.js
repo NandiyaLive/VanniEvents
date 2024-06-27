@@ -12,26 +12,41 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 var getAllUsers = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(role) {
     var users;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          _context.next = 2;
-          return _user["default"].find();
-        case 2:
+          users = [];
+          if (!role) {
+            _context.next = 7;
+            break;
+          }
+          _context.next = 4;
+          return _user["default"].find({
+            role: role
+          });
+        case 4:
           users = _context.sent;
+          _context.next = 10;
+          break;
+        case 7:
+          _context.next = 9;
+          return _user["default"].find();
+        case 9:
+          users = _context.sent;
+        case 10:
           users.map(function (user) {
             user.password = undefined;
           });
           return _context.abrupt("return", users);
-        case 5:
+        case 12:
         case "end":
           return _context.stop();
       }
     }, _callee);
   }));
-  return function getAllUsers() {
+  return function getAllUsers(_x) {
     return _ref.apply(this, arguments);
   };
 }();
@@ -62,7 +77,7 @@ var getUserById = /*#__PURE__*/function () {
       }
     }, _callee2);
   }));
-  return function getUserById(_x) {
+  return function getUserById(_x2) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -95,7 +110,7 @@ var getUserByEmail = /*#__PURE__*/function () {
       }
     }, _callee3);
   }));
-  return function getUserByEmail(_x2) {
+  return function getUserByEmail(_x3) {
     return _ref3.apply(this, arguments);
   };
 }();
@@ -134,7 +149,7 @@ var updateUser = /*#__PURE__*/function () {
       }
     }, _callee4);
   }));
-  return function updateUser(_x3, _x4, _x5) {
+  return function updateUser(_x4, _x5, _x6) {
     return _ref4.apply(this, arguments);
   };
 }();
@@ -153,7 +168,7 @@ var deleteUser = /*#__PURE__*/function () {
       }
     }, _callee5);
   }));
-  return function deleteUser(_x6) {
+  return function deleteUser(_x7) {
     return _ref5.apply(this, arguments);
   };
 }();
@@ -180,7 +195,7 @@ var checkUserRole = /*#__PURE__*/function () {
       }
     }, _callee6);
   }));
-  return function checkUserRole(_x7, _x8) {
+  return function checkUserRole(_x8, _x9) {
     return _ref6.apply(this, arguments);
   };
 }();

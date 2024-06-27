@@ -1,8 +1,16 @@
 import User from "@/models/user";
 import { hashPassword } from "./auth";
 
-const getAllUsers = async () => {
-  const users = await User.find();
+const getAllUsers = async (role) => {
+  let users = [];
+
+  if (role) {
+    users = await User.find({
+      role,
+    });
+  } else {
+    users = await User.find();
+  }
 
   users.map((user) => {
     user.password = undefined;

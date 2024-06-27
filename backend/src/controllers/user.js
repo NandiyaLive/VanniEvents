@@ -2,8 +2,10 @@ import { userService } from "@/services/user";
 import errorHandler from "@/utils/error-handler";
 
 const getAllUsers = async (req, res) => {
+  const { role } = req.query;
+
   try {
-    const users = await userService.getAllUsers();
+    const users = await userService.getAllUsers(role);
     res.status(200).json(users);
   } catch (error) {
     errorHandler(error, res);
@@ -40,7 +42,7 @@ const updateUser = async (req, res) => {
   try {
     const updatedUser = await userService.updateUser(id, payload, user);
     delete updatedUser.password;
-    
+
     res.status(200).json(updatedUser);
   } catch (error) {
     errorHandler(error, res);

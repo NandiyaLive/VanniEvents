@@ -13,27 +13,28 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 var getAllUsers = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res) {
-    var users;
+    var role, users;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          _context.prev = 0;
-          _context.next = 3;
-          return _user.userService.getAllUsers();
-        case 3:
+          role = req.query.role;
+          _context.prev = 1;
+          _context.next = 4;
+          return _user.userService.getAllUsers(role);
+        case 4:
           users = _context.sent;
           res.status(200).json(users);
-          _context.next = 10;
+          _context.next = 11;
           break;
-        case 7:
-          _context.prev = 7;
-          _context.t0 = _context["catch"](0);
+        case 8:
+          _context.prev = 8;
+          _context.t0 = _context["catch"](1);
           (0, _errorHandler["default"])(_context.t0, res);
-        case 10:
+        case 11:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[0, 7]]);
+    }, _callee, null, [[1, 8]]);
   }));
   return function getAllUsers(_x, _x2) {
     return _ref.apply(this, arguments);

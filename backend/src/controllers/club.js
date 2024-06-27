@@ -1,5 +1,4 @@
 import { clubService } from "@/services/club";
-import { userService } from "@/services/user";
 import errorHandler from "@/utils/error-handler";
 
 const createClub = async (req, res) => {
