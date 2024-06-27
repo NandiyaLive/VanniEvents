@@ -39,17 +39,14 @@ const EventSchema = new Schema({
         crietria: {
           type: String,
           enum: ["level", "faculty", "department"],
-          required: true,
         },
         values: [
           {
             type: String,
-            required: true,
           },
         ],
       },
     ],
-    required: true,
   },
   reg_start: {
     type: Date,
@@ -67,12 +64,6 @@ const EventSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  attendees: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
   organizer: {
     type: Schema.Types.ObjectId,
     ref: "Club",

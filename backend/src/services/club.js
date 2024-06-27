@@ -3,7 +3,18 @@ import { userService } from "./user";
 import { eventService } from "./event";
 
 const createClub = async (club) => {
-  return await Club.create(club);
+  let admins = [];
+
+  club.admins?.forEach(async (admin) => {
+    const user = await userService.checkUserRole(admin, "admin");
+
+    admins.push(user);
+  });
+
+  return await Club.create({
+    ...club,
+    admins,
+  });
 };
 
 const getClubs = async () => {
