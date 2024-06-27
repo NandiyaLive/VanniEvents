@@ -1,6 +1,6 @@
 "use client";
 
-import Logo from "@/src/components/logo";
+import Logo from "@/components/logo";
 import Image from "next/image";
 import RegisterForm from "./components/register-form";
 

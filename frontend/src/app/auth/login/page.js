@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/src/components/ui/button";
+import { errorHandler } from "@/handlers/error-handler";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,7 +13,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/src/components/ui/card";
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -20,9 +21,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/src/components/ui/form";
-import { Input } from "@/src/components/ui/input";
-import axios from "@/src/lib/axios";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import axios from "@/lib/axios";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 
@@ -38,6 +40,7 @@ const formSchema = z.object({
 
 const Page = () => {
   const router = useRouter();
+  const { toast } = useToast();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -50,14 +53,21 @@ const Page = () => {
   const onSubmit = async (values) => {
     try {
       const response = await axios.post("/auth/login", values);
+      const token = response.data.token;
 
-      setCookie("token", response.data.token, {
+      setCookie("token", token, {
         maxAge: 60 * 60 * 24 * 7,
       });
 
       router.push("/");
     } catch (error) {
-      console.error(error);
+      const errorMessage = errorHandler(error);
+
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: errorMessage,
+      });
     }
   };
 
@@ -80,7 +90,7 @@ const Page = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="johndoe" {...field} />
+                      <Input placeholder="johndoe@email.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

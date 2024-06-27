@@ -6,14 +6,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/src/components/ui/form";
-import { Input } from "@/src/components/ui/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/src/components/ui/button";
-import { Form } from "@/src/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import {
   Card,
   CardContent,
@@ -21,8 +21,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/src/components/ui/card";
-import axios from "@/src/lib/axios";
+} from "@/components/ui/card";
+import axios from "@/lib/axios";
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
