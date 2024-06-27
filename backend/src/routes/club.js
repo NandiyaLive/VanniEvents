@@ -9,7 +9,7 @@ club.post("/", validateData(clubSchema), clubController.createClub);
 club.get("/", clubController.getClubs);
 club.patch("/:id", validateData(clubSchema), clubController.updateClub);
 club.delete("/:id", clubController.deleteClub);
-club.get("/:slug", clubController.getClubBySlug);
+club.get("/:id", clubController.getClubById);
 club.post("/:id/admins", clubController.addAdmin);
 club.get("/:id/admins", clubController.getAdmins);
 club.delete("/:id/admins", clubController.removeAdmin);

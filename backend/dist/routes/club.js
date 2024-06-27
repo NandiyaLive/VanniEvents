@@ -14,7 +14,7 @@ club.post("/", (0, _validate["default"])(_club2.clubSchema), _club.clubControlle
 club.get("/", _club.clubController.getClubs);
 club.patch("/:id", (0, _validate["default"])(_club2.clubSchema), _club.clubController.updateClub);
 club["delete"]("/:id", _club.clubController.deleteClub);
-club.get("/:slug", _club.clubController.getClubBySlug);
+club.get("/:id", _club.clubController.getClubById);
 club.post("/:id/admins", _club.clubController.addAdmin);
 club.get("/:id/admins", _club.clubController.getAdmins);
 club["delete"]("/:id/admins", _club.clubController.removeAdmin);

@@ -42,27 +42,38 @@ var createClub = /*#__PURE__*/function () {
 }();
 var getClubs = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res) {
-    var clubs;
+    var slug, club, clubs;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          _context2.prev = 0;
-          _context2.next = 3;
+          slug = req.query.slug;
+          _context2.prev = 1;
+          if (!slug) {
+            _context2.next = 7;
+            break;
+          }
+          _context2.next = 5;
+          return _club.clubService.getClubBySlug(slug);
+        case 5:
+          club = _context2.sent;
+          return _context2.abrupt("return", res.json(club));
+        case 7:
+          _context2.next = 9;
           return _club.clubService.getClubs();
-        case 3:
+        case 9:
           clubs = _context2.sent;
           res.json(clubs);
-          _context2.next = 10;
+          _context2.next = 16;
           break;
-        case 7:
-          _context2.prev = 7;
-          _context2.t0 = _context2["catch"](0);
+        case 13:
+          _context2.prev = 13;
+          _context2.t0 = _context2["catch"](1);
           (0, _errorHandler["default"])(_context2.t0, res);
-        case 10:
+        case 16:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[0, 7]]);
+    }, _callee2, null, [[1, 13]]);
   }));
   return function getClubs(_x3, _x4) {
     return _ref2.apply(this, arguments);

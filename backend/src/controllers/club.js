@@ -13,7 +13,14 @@ const createClub = async (req, res) => {
 };
 
 const getClubs = async (req, res) => {
+  const { slug } = req.query;
+
   try {
+    if (slug) {
+      const club = await clubService.getClubBySlug(slug);
+      return res.json(club);
+    }
+
     const clubs = await clubService.getClubs();
     res.json(clubs);
   } catch (error) {
