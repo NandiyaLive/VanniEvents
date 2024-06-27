@@ -33,8 +33,6 @@ const Page = () => {
     })();
   }, []);
 
-  console.log(clubs);
-
   return (
     <main className="container max-w-8xl min-h-screen mt-4">
       <div className="flex justify-between items-center">

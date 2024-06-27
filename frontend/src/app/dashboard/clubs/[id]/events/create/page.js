@@ -52,8 +52,6 @@ const Page = ({ params }) => {
 
     try {
       const response = await axios.post("/events", values);
-
-      console.log(response.data);
     } catch (error) {
       const errorMessage = errorHandler(error);
 

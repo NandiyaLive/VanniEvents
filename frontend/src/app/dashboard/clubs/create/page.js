@@ -41,8 +41,6 @@ const Page = () => {
   });
 
   useEffectOnce(() => {
-    console.log("fetching admins");
-
     (async () => {
       try {
         const response = await axios.get("/users?role=admin");
@@ -168,7 +166,7 @@ const Page = () => {
 
           <div className="grid grid-cols-1 gap-4">
             {admins.map((admin) => (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2" key={admin.id}>
                 <Checkbox
                   id={admin.id}
                   name={admin.id}

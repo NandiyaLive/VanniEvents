@@ -31,8 +31,6 @@ const Page = () => {
     })();
   }, []);
 
-  console.log(users);
-
   return (
     <main className="container max-w-8xl min-h-screen mt-4">
       <h1 className="text-3xl font-bold">Users</h1>
