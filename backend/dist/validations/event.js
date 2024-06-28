@@ -40,7 +40,7 @@ var eventSchema = exports.eventSchema = _zod.z.object({
   reg_start: _zod.z.string().min(1, {
     message: "Registartion start date is required"
   }),
-  dealine: _zod.z.string().min(1, {
+  deadline: _zod.z.string().min(1, {
     message: "Deadline is required"
   }),
   enabled: _zod.z["boolean"]()["default"](true),

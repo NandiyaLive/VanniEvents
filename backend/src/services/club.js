@@ -54,15 +54,14 @@ const addAdmin = async (clubId, userId) => {
 };
 
 const getAdmins = async (clubId) => {
-  const data = await Club.findById(clubId).populate("admins");
-  const admins = data.admins.map((admin) => ({
-    id: admin._id.toString(),
-    name: admin.name,
-    username: admin.username,
-    email: admin.email,
-  }));
+  try {
+    const club = await Club.findById(clubId).populate("admins");
 
-  return admins;
+    return club.admins;
+  } catch (error) {
+    console.error("Error getting admins:", error);
+    throw error;
+  }
 };
 
 const checkAdmin = async (clubId, userId) => {

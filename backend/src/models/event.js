@@ -52,7 +52,7 @@ const EventSchema = new Schema({
     type: Date,
     required: true,
   },
-  dealine: {
+  deadline: {
     type: Date,
     required: true,
   },

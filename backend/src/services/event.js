@@ -22,6 +22,14 @@ const getEventById = async (id) => {
   return await Event.findById(id);
 };
 
+const getEventsByClubId = async (clubId) => {
+  if (!clubId) {
+    throw new Error("Club ID is required");
+  }
+
+  return await Event.find({ organizer: clubId });
+};
+
 const updateEvent = async (id, event) => {
   if (!id) {
     throw new Error("Event ID is required");
@@ -90,6 +98,7 @@ export const eventService = {
   createEvent,
   getEvents,
   getEventById,
+  getEventsByClubId,
   updateEvent,
   deleteEvent,
   addAttendee,

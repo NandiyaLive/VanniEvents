@@ -19,7 +19,7 @@ export const eventSchema = z.object({
   reg_start: z
     .string()
     .min(1, { message: "Registartion start date is required" }),
-  dealine: z.string().min(1, { message: "Deadline is required" }),
+  deadline: z.string().min(1, { message: "Deadline is required" }),
   enabled: z.boolean().default(true),
   attendees: z.array(z.string()).optional(),
   partners: z.array(z.string()).optional(),

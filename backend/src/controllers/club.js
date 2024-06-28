@@ -1,4 +1,5 @@
 import { clubService } from "@/services/club";
+import { eventService } from "@/services/event";
 import errorHandler from "@/utils/error-handler";
 
 const createClub = async (req, res) => {
@@ -137,7 +138,8 @@ const addEvent = async (req, res) => {
 const getEvents = async (req, res) => {
   const { id: clubId } = req.params;
   try {
-    const club = await clubService.getEvents(clubId);
+    const club = await eventService.getEventsByClubId(clubId);
+
     res.json(club);
   } catch (error) {
     errorHandler(error, res);

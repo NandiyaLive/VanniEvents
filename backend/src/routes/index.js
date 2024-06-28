@@ -5,6 +5,7 @@ import authRoutes from "./auth";
 import userRoutes from "./user";
 import clubRoutes from "./club";
 import eventRoutes from "./event";
+import mongoose from "mongoose";
 
 const router = express.Router();
 
@@ -16,6 +17,9 @@ router.get("/", (req, res) => {
     version: "1.0.0",
     status: "UP",
     uptime,
+    mongodb: {
+      status: mongoose.connection.readyState === 1 ? "UP" : "DOWN",
+    },
   });
 });
 

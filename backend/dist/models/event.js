@@ -53,7 +53,7 @@ var EventSchema = new _mongoose.Schema({
     type: Date,
     required: true
   },
-  dealine: {
+  deadline: {
     type: Date,
     required: true
   },

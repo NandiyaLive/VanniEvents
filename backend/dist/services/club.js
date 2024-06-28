@@ -177,28 +177,26 @@ var addAdmin = /*#__PURE__*/function () {
 }();
 var getAdmins = /*#__PURE__*/function () {
   var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(clubId) {
-    var data, admins;
+    var club;
     return _regeneratorRuntime().wrap(function _callee8$(_context8) {
       while (1) switch (_context8.prev = _context8.next) {
         case 0:
-          _context8.next = 2;
+          _context8.prev = 0;
+          _context8.next = 3;
           return _club["default"].findById(clubId).populate("admins");
-        case 2:
-          data = _context8.sent;
-          admins = data.admins.map(function (admin) {
-            return {
-              id: admin._id.toString(),
-              name: admin.name,
-              username: admin.username,
-              email: admin.email
-            };
-          });
-          return _context8.abrupt("return", admins);
-        case 5:
+        case 3:
+          club = _context8.sent;
+          return _context8.abrupt("return", club.admins);
+        case 7:
+          _context8.prev = 7;
+          _context8.t0 = _context8["catch"](0);
+          console.error("Error getting admins:", _context8.t0);
+          throw _context8.t0;
+        case 11:
         case "end":
           return _context8.stop();
       }
-    }, _callee8);
+    }, _callee8, null, [[0, 7]]);
   }));
   return function getAdmins(_x9) {
     return _ref8.apply(this, arguments);
