@@ -12,7 +12,7 @@ club.delete("/:id", clubController.deleteClub);
 club.get("/:id", clubController.getClubById);
 club.post("/:id/admins", clubController.addAdmin);
 club.get("/:id/admins", clubController.getAdmins);
-club.delete("/:id/admins", clubController.removeAdmin);
+club.delete("/:clubId/admins/:userId", clubController.removeAdmin);
 club.post("/:id/events", clubController.addEvent);
 club.get("/:id/events", clubController.getEvents);
 club.delete("/:id/events/:eventId", clubController.removeEvent);

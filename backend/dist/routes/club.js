@@ -17,7 +17,7 @@ club["delete"]("/:id", _club.clubController.deleteClub);
 club.get("/:id", _club.clubController.getClubById);
 club.post("/:id/admins", _club.clubController.addAdmin);
 club.get("/:id/admins", _club.clubController.getAdmins);
-club["delete"]("/:id/admins", _club.clubController.removeAdmin);
+club["delete"]("/:clubId/admins/:userId", _club.clubController.removeAdmin);
 club.post("/:id/events", _club.clubController.addEvent);
 club.get("/:id/events", _club.clubController.getEvents);
 club["delete"]("/:id/events/:eventId", _club.clubController.removeEvent);

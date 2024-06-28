@@ -112,8 +112,7 @@ const checkAdmin = async (req, res) => {
 };
 
 const removeAdmin = async (req, res) => {
-  const { id: clubId } = req.params;
-  const { userId } = req.body;
+  const { clubId, userId } = req.params;
 
   try {
     const club = await clubService.removeAdmin(clubId, userId);

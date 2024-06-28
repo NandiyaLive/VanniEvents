@@ -92,7 +92,8 @@ const removeAdmin = async (clubId, userId) => {
     throw new Error("Club ID is required");
   }
 
-  const isAdmin = await getAdmins(clubId).includes(userId);
+  const clubAdmins = await getAdmins(clubId);
+  const isAdmin = clubAdmins.find((admin) => admin.id == userId);
 
   if (!isAdmin) {
     throw new Error("User is not an admin");

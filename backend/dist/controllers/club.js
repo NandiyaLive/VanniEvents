@@ -293,29 +293,28 @@ var checkAdmin = /*#__PURE__*/function () {
 }();
 var removeAdmin = /*#__PURE__*/function () {
   var _ref10 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10(req, res) {
-    var clubId, userId, club;
+    var _req$params, clubId, userId, club;
     return _regeneratorRuntime().wrap(function _callee10$(_context10) {
       while (1) switch (_context10.prev = _context10.next) {
         case 0:
-          clubId = req.params.id;
-          userId = req.body.userId;
-          _context10.prev = 2;
-          _context10.next = 5;
+          _req$params = req.params, clubId = _req$params.clubId, userId = _req$params.userId;
+          _context10.prev = 1;
+          _context10.next = 4;
           return _club.clubService.removeAdmin(clubId, userId);
-        case 5:
+        case 4:
           club = _context10.sent;
           res.json(club);
-          _context10.next = 12;
+          _context10.next = 11;
           break;
-        case 9:
-          _context10.prev = 9;
-          _context10.t0 = _context10["catch"](2);
+        case 8:
+          _context10.prev = 8;
+          _context10.t0 = _context10["catch"](1);
           (0, _errorHandler["default"])(_context10.t0, res);
-        case 12:
+        case 11:
         case "end":
           return _context10.stop();
       }
-    }, _callee10, null, [[2, 9]]);
+    }, _callee10, null, [[1, 8]]);
   }));
   return function removeAdmin(_x19, _x20) {
     return _ref10.apply(this, arguments);
