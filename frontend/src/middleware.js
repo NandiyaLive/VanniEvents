@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { getCookie, setCookie } from "cookies-next";
-import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
 
 const userRoutes = ["/", "/events", "/profile", "/tickets"];
@@ -18,9 +17,10 @@ const checkIfUserRoute = (pathname) => {
 };
 
 export async function middleware(req) {
-  const pathname = req.nextUrl.pathname;
-  const token = getCookie("token", { cookies });
   const res = NextResponse.next();
+  const pathname = req.nextUrl.pathname;
+
+  const token = getCookie("token", { res, req });
 
   if (pathname.startsWith("/_next/")) {
     return NextResponse.next();
@@ -30,6 +30,7 @@ export async function middleware(req) {
     if (token) {
       try {
         const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+
         const { payload } = await jwtVerify(token, secret);
 
         setCookie("role", payload.role, { res, req });

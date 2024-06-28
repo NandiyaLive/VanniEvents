@@ -7,19 +7,47 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { LogOut } from "lucide-react";
-import { useState } from "react";
-import useEffectOnce from "@/lib/use-effect-once";
+import { useEffect, useState } from "react";
+
+const commonLinks = [
+  {
+    title: "Profile",
+    href: "/profile",
+  },
+];
+
+const authLinks = [
+  {
+    title: "Login",
+    href: "/auth/login",
+  },
+  {
+    title: "Register",
+    href: "/auth/register",
+  },
+];
+
+const superAdminLinks = [
+  {
+    title: "Dashboard",
+    href: "/dashboard",
+  },
+  {
+    title: "Clubs",
+    href: "/dashboard/clubs",
+  },
+  {
+    title: "Users",
+    href: "/dashboard/users",
+  },
+];
 
 const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [navLinks, setNavLinks] = useState([
-    {
-      title: "Profile",
-      href: "/profile",
-    },
-  ]);
+  const [loading, setLoading] = useState(true);
+  const [navLinks, setNavLinks] = useState([...authLinks]);
 
   const userRole = getCookie("role");
 
@@ -29,23 +57,17 @@ const Navbar = () => {
     router.push("/auth/login");
   };
 
-  useEffectOnce(() => {
-    if (userRole && userRole !== "user") {
-      setNavLinks((prev) => [
-        {
-          title: "Dashboard",
-          href: "/dashboard",
-        },
-        {
-          title: "Clubs",
-          href: "/dashboard/clubs",
-        },
-        {
-          title: "Users",
-          href: "/dashboard/users",
-        },
-        ...prev,
-      ]);
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    if (userRole) {
+      setNavLinks([...commonLinks]);
+    }
+
+    if (userRole && userRole === "superadmin") {
+      setNavLinks([...superAdminLinks, ...commonLinks]);
     }
   }, [userRole]);
 
@@ -66,10 +88,14 @@ const Navbar = () => {
           </Link>
         ))}
 
-        <Button variant="destructive" size="sm" onClick={handelLogout}>
-          <LogOut size={16} className="mr-2" />
-          Logout
-        </Button>
+        {!loading
+          ? userRole && (
+              <Button variant="destructive" size="sm" onClick={handelLogout}>
+                <LogOut size={16} className="mr-2" />
+                Logout
+              </Button>
+            )
+          : null}
       </nav>
     </section>
   );

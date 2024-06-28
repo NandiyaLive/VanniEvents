@@ -4,7 +4,7 @@ import { getCookie } from "cookies-next";
 const token = getCookie("token");
 
 const axios = axiosPackage.create({
-  baseURL: "https://vanni-events-api.vercel.app/api",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     "Content-Type": "application/json",
     Authorization: token ? `Bearer ${token}` : "",

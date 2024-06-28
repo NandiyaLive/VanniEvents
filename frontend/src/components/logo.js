@@ -1,12 +1,13 @@
-import Image from "next/image";
-import React from "react";
 import { cn } from "../lib/utils";
+import { CalendarClock } from "lucide-react";
 
 const Logo = ({ className }) => {
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      <Image src="/icon.png" width={30} height={30} alt="Logo" />
-      <h1 className="text-2xl text-neutral-800 dark:text-neutral-300">Vanni Events</h1>
+      <CalendarClock size={24} />
+      <h1 className="text-2xl text-neutral-800 font-semibold dark:text-neutral-300">
+        Vanni Events
+      </h1>
     </div>
   );
 };

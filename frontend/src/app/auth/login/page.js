@@ -53,13 +53,16 @@ const Page = () => {
   const onSubmit = async (values) => {
     try {
       const response = await axios.post("/auth/login", values);
+
+      console.log("Response", response.data);
       const token = response.data.token;
 
       setCookie("token", token, {
         maxAge: 60 * 60 * 24 * 7,
+        sameSite: "strict",
       });
 
-      router.push("/");
+      router.push("/dashboard");
     } catch (error) {
       const errorMessage = errorHandler(error);
 

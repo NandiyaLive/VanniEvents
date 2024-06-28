@@ -7,9 +7,12 @@ import useEffectOnce from "@/lib/use-effect-once";
 import Link from "next/link";
 import { useState } from "react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { ConfirmDialog } from "./components/confirm-dialog";
+import { useToast } from "@/components/ui/use-toast";
 
 const Page = ({ params }) => {
   const [clubData, setClubData] = useState({});
+  const { toast } = useToast();
 
   useEffectOnce(() => {
     (async () => {
@@ -29,6 +32,8 @@ const Page = ({ params }) => {
     })();
   }, []);
 
+  console.log(clubData);
+
   if (!clubData) return null;
 
   return (
@@ -46,6 +51,8 @@ const Page = ({ params }) => {
               Edit Club
             </Button>
           </Link>
+
+          <ConfirmDialog clubData={clubData} toast={toast} />
         </div>
       </div>
 

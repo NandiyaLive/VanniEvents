@@ -18,9 +18,9 @@ import axios from "@/lib/axios";
 import { errorHandler } from "@/handlers/error-handler";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import useEffectOnce from "@/lib/use-effect-once";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -30,7 +30,7 @@ const formSchema = z.object({
 
 const Page = () => {
   const { toast } = useToast();
-  const { router } = useRouter();
+  const router = useRouter();
 
   const [admins, setAdmins] = useState([]);
   const [clubAdmins, setClubAdmins] = useState([]);
@@ -59,6 +59,14 @@ const Page = () => {
   }, []);
 
   const onSubmit = async (values) => {
+    if (clubAdmins.length === 0) {
+      form.setError("admins", {
+        message: "Please select at least one admin",
+      });
+
+      return;
+    }
+
     values.admins = clubAdmins;
 
     try {
@@ -162,34 +170,53 @@ const Page = () => {
             )}
           />
 
-          <p className="text-sm font-medium">Club Admins</p>
+          <FormField
+            control={form.control}
+            name="admins"
+            render={() => (
+              <FormItem>
+                <div className="mb-4">
+                  <FormLabel className="text-base">
+                    Club Admins <span className="text-red-500">*</span>
+                  </FormLabel>
+                </div>
 
-          <div className="grid grid-cols-1 gap-4">
-            {admins.map((admin) => (
-              <div className="flex items-center space-x-2" key={admin.id}>
-                <Checkbox
-                  id={admin.id}
-                  name={admin.id}
-                  value={admin.id}
-                  onChange={(event) => {
-                    if (event.target.checked) {
-                      setClubAdmins((prev) => [...prev, admin.id]);
-                    } else {
-                      setClubAdmins((prev) =>
-                        prev.filter((id) => id !== admin.id)
+                {admins.map((admin) => (
+                  <FormField
+                    key={admin._id}
+                    name="admins"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={admin._id}
+                          className="flex flex-row items-start space-x-3 space-y-0"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={clubAdmins.includes(admin._id)}
+                              onCheckedChange={(checked) => {
+                                if (checked) {
+                                  setClubAdmins([...clubAdmins, admin._id]);
+                                } else {
+                                  setClubAdmins(
+                                    clubAdmins.filter((id) => id !== admin._id)
+                                  );
+                                }
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {admin.name}
+                          </FormLabel>
+                        </FormItem>
                       );
-                    }
-                  }}
-                />
-                <label
-                  htmlFor={admin.id}
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  {admin.name}
-                </label>
-              </div>
-            ))}
-          </div>
+                    }}
+                  />
+                ))}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <div className="flex items-center w-full gap-4 mt-4">
             <Button
