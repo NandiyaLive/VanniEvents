@@ -14,6 +14,11 @@ const nextConfig = {
         hostname: "api.dicebear.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "pbs.twimg.com",
+        port: "",
+      },
     ],
   },
 };

@@ -4,7 +4,7 @@ import { CalendarClock } from "lucide-react";
 const Logo = ({ className }) => {
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      <CalendarClock size={24} />
+      <CalendarClock size={24} className=" text-green-600" />
       <h1 className="text-2xl text-neutral-800 font-semibold dark:text-neutral-300">
         Vanni Events
       </h1>
