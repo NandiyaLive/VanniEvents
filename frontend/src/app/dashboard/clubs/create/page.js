@@ -64,6 +64,10 @@ const Page = () => {
         message: "Please select at least one admin",
       });
 
+      setTimeout(() => {
+        form.clearErrors("admins");
+      }, 5000);
+
       return;
     }
 
@@ -176,7 +180,7 @@ const Page = () => {
             render={() => (
               <FormItem>
                 <div className="mb-4">
-                  <FormLabel className="text-base">
+                  <FormLabel>
                     Club Admins <span className="text-red-500">*</span>
                   </FormLabel>
                 </div>

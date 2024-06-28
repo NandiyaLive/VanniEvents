@@ -9,6 +9,7 @@ import { useState } from "react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { ConfirmDialog } from "./components/confirm-dialog";
 import { useToast } from "@/components/ui/use-toast";
+import AdminsTable from "./components/admins-table";
 
 const Page = ({ params }) => {
   const [clubData, setClubData] = useState({});
@@ -64,21 +65,7 @@ const Page = ({ params }) => {
         <p>{clubData.description}</p>
 
         <h2 className="text-xl font-semibold mt-4">Admins</h2>
-
-        <Table>
-          <TableBody>
-            {clubData.admins?.length ? (
-              clubData.admins?.map((admin) => (
-                <TableRow key={admin._id}>
-                  <TableCell>{admin.name}</TableCell>
-                  <TableCell>{admin.email}</TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <p className="text-gray-500">No admins found.</p>
-            )}
-          </TableBody>
-        </Table>
+        <AdminsTable admins={clubData.admins} params={params} />
 
         <h2 className="text-xl font-semibold mt-4">Events</h2>
 

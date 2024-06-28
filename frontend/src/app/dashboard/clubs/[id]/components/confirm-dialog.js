@@ -1,14 +1,14 @@
 "use client";
 
 import {
-    AlertDialog,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { errorHandler } from "@/handlers/error-handler";
@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function ConfirmDialog({ clubData, toast }) {
-  const { router } = useRouter();
+  const router = useRouter();
 
   const [open, setOpen] = useState(false);
 
@@ -57,8 +57,8 @@ export function ConfirmDialog({ clubData, toast }) {
             Are you absolutely sure?
           </AlertDialogTitle>
           <AlertDialogDescription className="text-left">
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            This action cannot be undone. This will permanently delete the
+            <strong> {clubData.name}</strong> and all of its data.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex flex-row items-center justify-end gap-4">
