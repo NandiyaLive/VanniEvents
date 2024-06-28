@@ -3,10 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { errorHandler } from "@/handlers/error-handler";
 import axios from "@/lib/axios";
-import { useState } from "react";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -52,11 +50,10 @@ export const columns = [
     cell: (row) => {
       const userId = row.row.original._id;
       const userRole = row.row.original.role;
-      const [open, setOpen] = useState(false);
 
       return (
         <div className="flex items-center space-x-2">
-          <AlertDialog open={open} onOpenChange={setOpen}>
+          <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button
                 variant="secondary"
@@ -76,18 +73,16 @@ export const columns = [
               </AlertDialogHeader>
               <AlertDialogFooter className="flex-row gap-2 justify-end">
                 <AlertDialogCancel className="mt-0">Cancel</AlertDialogCancel>
-                <AlertDialogAction>
+                <AlertDialogTrigger asChild>
                   <Button
-                    variant="destructive"
                     size="sm"
                     onClick={() => {
                       handlePromote(userId);
-                      setOpen(false);
                     }}
                   >
                     Continue
                   </Button>
-                </AlertDialogAction>
+                </AlertDialogTrigger>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
