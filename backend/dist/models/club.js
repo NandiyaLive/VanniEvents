@@ -18,7 +18,8 @@ var ClubSchema = Schema({
     unique: true
   },
   description: {
-    type: String
+    type: String,
+    required: true
   },
   logo: {
     type: String
@@ -26,10 +27,13 @@ var ClubSchema = Schema({
   cover: {
     type: String
   },
-  admins: [{
-    type: Schema.Types.ObjectId,
-    ref: "User"
-  }],
+  admins: {
+    type: [{
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    }],
+    required: true
+  },
   events: [{
     type: Schema.Types.ObjectId,
     ref: "Event"

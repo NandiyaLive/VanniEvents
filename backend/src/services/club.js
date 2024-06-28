@@ -2,37 +2,37 @@ import Club from "@/models/club";
 import { userService } from "./user";
 import { eventService } from "./event";
 
-const createClub = async (club) => {
-  let admins = [];
+const createClub = async (payload) => {
+  try {
+    const club = await Club.create(payload);
 
-  club.admins?.forEach(async (admin) => {
-    const user = await userService.checkUserRole(admin, "admin");
+    const clubWithAdmins = await Club.findById(club.id).populate("admins");
 
-    admins.push(user);
-  });
-
-  return await Club.create({
-    ...club,
-    admins,
-  });
+    return clubWithAdmins;
+  } catch (error) {
+    console.error("Error creating club:", error);
+    throw error;
+  }
 };
 
 const getClubs = async () => {
-  return await Club.find();
+  return await Club.find().populate("admins");
 };
 
 const getClubById = async (id) => {
-  return await Club.findById(id);
+  return await Club.findById(id).populate("admins");
 };
 
 const getClubBySlug = async (slug) => {
   return await Club.findOne({
     slug,
-  });
+  }).populate("admins");
 };
 
 const updateClub = async (id, club) => {
-  return await Club.findByIdAndUpdate(id, club, { new: true });
+  return await Club.findByIdAndUpdate(id, club, { new: true }).populate(
+    "admins"
+  );
 };
 
 const deleteClub = async (id) => {
@@ -50,7 +50,7 @@ const addAdmin = async (clubId, userId) => {
     clubId,
     { $push: { admins: userId } },
     { new: true }
-  );
+  ).populate("admins");
 };
 
 const getAdmins = async (clubId) => {
@@ -102,7 +102,7 @@ const removeAdmin = async (clubId, userId) => {
     clubId,
     { $pull: { admins: userId } },
     { new: true }
-  );
+  ).populate("admins");
 };
 
 const addEvent = async (clubId, eventId) => {

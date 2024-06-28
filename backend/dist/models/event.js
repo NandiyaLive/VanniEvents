@@ -42,15 +42,12 @@ var EventSchema = new _mongoose.Schema({
     type: [{
       crietria: {
         type: String,
-        "enum": ["level", "faculty", "department"],
-        required: true
+        "enum": ["level", "faculty", "department"]
       },
       values: [{
-        type: String,
-        required: true
+        type: String
       }]
-    }],
-    required: true
+    }]
   },
   reg_start: {
     type: Date,
@@ -68,10 +65,6 @@ var EventSchema = new _mongoose.Schema({
     type: Boolean,
     "default": false
   },
-  attendees: [{
-    type: _mongoose.Schema.Types.ObjectId,
-    ref: "User"
-  }],
   organizer: {
     type: _mongoose.Schema.Types.ObjectId,
     ref: "Club",
