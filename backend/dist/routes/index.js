@@ -11,10 +11,14 @@ var _user = _interopRequireDefault(require("./user"));
 var _club = _interopRequireDefault(require("./club"));
 var _event = _interopRequireDefault(require("./event"));
 var _mongoose = _interopRequireDefault(require("mongoose"));
+var _status = _interopRequireDefault(require("../models/status"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var router = _express["default"].Router();
 router.get("/", function (req, res) {
   var uptime = Math.round(process.uptime()) + "s";
+  _status["default"].create({
+    status: _mongoose["default"].connection.readyState === 1 ? "UP" : "DOWN"
+  });
   res.json({
     message: "Welcome to VanniEvents API",
     version: "1.0.0",
@@ -27,6 +31,6 @@ router.get("/", function (req, res) {
 });
 router.use("/auth", _auth2["default"]);
 router.use("/users", _auth.authenticate, _user["default"]);
-router.use("/clubs", _auth.authenticate, _auth.superAdminProtect, _club["default"]);
+router.use("/clubs", _club["default"]);
 router.use("/events", _event["default"]);
 var _default = exports["default"] = router;

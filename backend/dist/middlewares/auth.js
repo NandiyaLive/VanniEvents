@@ -141,7 +141,7 @@ var clubAdminProtect = exports.clubAdminProtect = /*#__PURE__*/function () {
               email: req.user.email,
               role: req.user.role
             },
-            message: "You have to be an club admin to access this resource"
+            message: "You have to be an admin of the club to access this resource"
           }));
         case 2:
           clubId = req.body.clubId;
@@ -160,7 +160,7 @@ var clubAdminProtect = exports.clubAdminProtect = /*#__PURE__*/function () {
               email: req.user.email,
               role: req.user.role
             },
-            message: "You have to be an club admin to access this resource"
+            message: "You have to be an admin of the club to access this resource"
           }));
         case 9:
           next();

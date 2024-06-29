@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.clubController = void 0;
-var _club = require("../services/club");
+var _club2 = require("../services/club");
 var _event = require("../services/event");
 var _errorHandler = _interopRequireDefault(require("../utils/error-handler"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -21,7 +21,7 @@ var createClub = /*#__PURE__*/function () {
           payload = req.body;
           _context.prev = 1;
           _context.next = 4;
-          return _club.clubService.createClub(payload);
+          return _club2.clubService.createClub(payload);
         case 4:
           club = _context.sent;
           res.json(club);
@@ -43,38 +43,49 @@ var createClub = /*#__PURE__*/function () {
 }();
 var getClubs = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res) {
-    var slug, club, clubs;
+    var slug, userId, club, _club, clubs;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           slug = req.query.slug;
-          _context2.prev = 1;
+          userId = req.query.userId;
+          _context2.prev = 2;
           if (!slug) {
-            _context2.next = 7;
+            _context2.next = 8;
             break;
           }
-          _context2.next = 5;
-          return _club.clubService.getClubBySlug(slug);
-        case 5:
+          _context2.next = 6;
+          return _club2.clubService.getClubBySlug(slug);
+        case 6:
           club = _context2.sent;
           return _context2.abrupt("return", res.json(club));
-        case 7:
-          _context2.next = 9;
-          return _club.clubService.getClubs();
-        case 9:
+        case 8:
+          if (!userId) {
+            _context2.next = 13;
+            break;
+          }
+          _context2.next = 11;
+          return _club2.clubService.getClubByUserId(userId);
+        case 11:
+          _club = _context2.sent;
+          return _context2.abrupt("return", res.json(_club));
+        case 13:
+          _context2.next = 15;
+          return _club2.clubService.getClubs();
+        case 15:
           clubs = _context2.sent;
           res.json(clubs);
-          _context2.next = 16;
+          _context2.next = 22;
           break;
-        case 13:
-          _context2.prev = 13;
-          _context2.t0 = _context2["catch"](1);
+        case 19:
+          _context2.prev = 19;
+          _context2.t0 = _context2["catch"](2);
           (0, _errorHandler["default"])(_context2.t0, res);
-        case 16:
+        case 22:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[1, 13]]);
+    }, _callee2, null, [[2, 19]]);
   }));
   return function getClubs(_x3, _x4) {
     return _ref2.apply(this, arguments);
@@ -89,7 +100,7 @@ var getClubById = /*#__PURE__*/function () {
           id = req.params.id;
           _context3.prev = 1;
           _context3.next = 4;
-          return _club.clubService.getClubById(id);
+          return _club2.clubService.getClubById(id);
         case 4:
           club = _context3.sent;
           res.json(club);
@@ -118,7 +129,7 @@ var getClubBySlug = /*#__PURE__*/function () {
           slug = req.params.slug;
           _context4.prev = 1;
           _context4.next = 4;
-          return _club.clubService.getClubBySlug(slug);
+          return _club2.clubService.getClubBySlug(slug);
         case 4:
           club = _context4.sent;
           res.json(club);
@@ -148,7 +159,7 @@ var updateClub = /*#__PURE__*/function () {
           payload = req.body;
           _context5.prev = 2;
           _context5.next = 5;
-          return _club.clubService.updateClub(id, payload);
+          return _club2.clubService.updateClub(id, payload);
         case 5:
           club = _context5.sent;
           res.json(club);
@@ -177,7 +188,7 @@ var deleteClub = /*#__PURE__*/function () {
           id = req.params.id;
           _context6.prev = 1;
           _context6.next = 4;
-          return _club.clubService.deleteClub(id);
+          return _club2.clubService.deleteClub(id);
         case 4:
           res.status(204).end();
           _context6.next = 10;
@@ -206,7 +217,7 @@ var addAdmin = /*#__PURE__*/function () {
           userId = req.body.userId;
           _context7.prev = 2;
           _context7.next = 5;
-          return _club.clubService.addAdmin(clubId, userId);
+          return _club2.clubService.addAdmin(clubId, userId);
         case 5:
           club = _context7.sent;
           res.json(club);
@@ -235,7 +246,7 @@ var getAdmins = /*#__PURE__*/function () {
           clubId = req.params.id;
           _context8.prev = 1;
           _context8.next = 4;
-          return _club.clubService.getAdmins(clubId);
+          return _club2.clubService.getAdmins(clubId);
         case 4:
           club = _context8.sent;
           admins = club.admins.map(function (admin) {
@@ -272,7 +283,7 @@ var checkAdmin = /*#__PURE__*/function () {
           userId = req.body.userId;
           _context9.prev = 2;
           _context9.next = 5;
-          return _club.clubService.checkAdmin(clubId, userId);
+          return _club2.clubService.checkAdmin(clubId, userId);
         case 5:
           club = _context9.sent;
           res.json(club);
@@ -301,7 +312,7 @@ var removeAdmin = /*#__PURE__*/function () {
           _req$params = req.params, clubId = _req$params.clubId, userId = _req$params.userId;
           _context10.prev = 1;
           _context10.next = 4;
-          return _club.clubService.removeAdmin(clubId, userId);
+          return _club2.clubService.removeAdmin(clubId, userId);
         case 4:
           club = _context10.sent;
           res.json(club);
@@ -331,7 +342,7 @@ var addEvent = /*#__PURE__*/function () {
           eventId = req.body.eventId;
           _context11.prev = 2;
           _context11.next = 5;
-          return _club.clubService.addEvent(clubId, eventId);
+          return _club2.clubService.addEvent(clubId, eventId);
         case 5:
           club = _context11.sent;
           res.json(club);
@@ -390,7 +401,7 @@ var removeEvent = /*#__PURE__*/function () {
           eventId = req.body.eventId;
           _context13.prev = 2;
           _context13.next = 5;
-          return _club.clubService.removeEvent(clubId, eventId);
+          return _club2.clubService.removeEvent(clubId, eventId);
         case 5:
           club = _context13.sent;
           res.json(club);

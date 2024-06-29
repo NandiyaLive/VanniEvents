@@ -102,15 +102,15 @@ var getClubBySlug = /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }();
-var updateClub = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(id, club) {
+var getClubByUserId = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(userId) {
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return _club["default"].findByIdAndUpdate(id, club, {
-            "new": true
-          }).populate("admins");
+          return _club["default"].findOne({
+            admins: userId
+          });
         case 2:
           return _context5.abrupt("return", _context5.sent);
         case 3:
@@ -119,17 +119,19 @@ var updateClub = /*#__PURE__*/function () {
       }
     }, _callee5);
   }));
-  return function updateClub(_x4, _x5) {
+  return function getClubByUserId(_x4) {
     return _ref5.apply(this, arguments);
   };
 }();
-var deleteClub = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(id) {
+var updateClub = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(id, club) {
     return _regeneratorRuntime().wrap(function _callee6$(_context6) {
       while (1) switch (_context6.prev = _context6.next) {
         case 0:
           _context6.next = 2;
-          return _club["default"].findByIdAndDelete(id);
+          return _club["default"].findByIdAndUpdate(id, club, {
+            "new": true
+          }).populate("admins");
         case 2:
           return _context6.abrupt("return", _context6.sent);
         case 3:
@@ -138,24 +140,43 @@ var deleteClub = /*#__PURE__*/function () {
       }
     }, _callee6);
   }));
-  return function deleteClub(_x6) {
+  return function updateClub(_x5, _x6) {
     return _ref6.apply(this, arguments);
   };
 }();
-var addAdmin = /*#__PURE__*/function () {
-  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(clubId, userId) {
-    var isAdmin;
+var deleteClub = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(id) {
     return _regeneratorRuntime().wrap(function _callee7$(_context7) {
       while (1) switch (_context7.prev = _context7.next) {
         case 0:
+          _context7.next = 2;
+          return _club["default"].findByIdAndDelete(id);
+        case 2:
+          return _context7.abrupt("return", _context7.sent);
+        case 3:
+        case "end":
+          return _context7.stop();
+      }
+    }, _callee7);
+  }));
+  return function deleteClub(_x7) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+var addAdmin = /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(clubId, userId) {
+    var isAdmin;
+    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+      while (1) switch (_context8.prev = _context8.next) {
+        case 0:
           isAdmin = _user.userService.checkUserRole(userId, "admin");
           if (isAdmin) {
-            _context7.next = 3;
+            _context8.next = 3;
             break;
           }
           throw new Error("User is not an admin");
         case 3:
-          _context7.next = 5;
+          _context8.next = 5;
           return _club["default"].findByIdAndUpdate(clubId, {
             $push: {
               admins: userId
@@ -164,89 +185,47 @@ var addAdmin = /*#__PURE__*/function () {
             "new": true
           }).populate("admins");
         case 5:
-          return _context7.abrupt("return", _context7.sent);
+          return _context8.abrupt("return", _context8.sent);
         case 6:
-        case "end":
-          return _context7.stop();
-      }
-    }, _callee7);
-  }));
-  return function addAdmin(_x7, _x8) {
-    return _ref7.apply(this, arguments);
-  };
-}();
-var getAdmins = /*#__PURE__*/function () {
-  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(clubId) {
-    var club;
-    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
-      while (1) switch (_context8.prev = _context8.next) {
-        case 0:
-          _context8.prev = 0;
-          _context8.next = 3;
-          return _club["default"].findById(clubId).populate("admins");
-        case 3:
-          club = _context8.sent;
-          return _context8.abrupt("return", club.admins);
-        case 7:
-          _context8.prev = 7;
-          _context8.t0 = _context8["catch"](0);
-          console.error("Error getting admins:", _context8.t0);
-          throw _context8.t0;
-        case 11:
         case "end":
           return _context8.stop();
       }
-    }, _callee8, null, [[0, 7]]);
+    }, _callee8);
   }));
-  return function getAdmins(_x9) {
+  return function addAdmin(_x8, _x9) {
     return _ref8.apply(this, arguments);
   };
 }();
-var checkAdmin = /*#__PURE__*/function () {
-  var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(clubId, userId) {
-    var admins, isAdmin;
+var getAdmins = /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(clubId) {
+    var club;
     return _regeneratorRuntime().wrap(function _callee9$(_context9) {
       while (1) switch (_context9.prev = _context9.next) {
         case 0:
-          if (userId) {
-            _context9.next = 2;
-            break;
-          }
-          throw new Error("User ID is required");
-        case 2:
-          if (clubId) {
-            _context9.next = 4;
-            break;
-          }
-          throw new Error("Club ID is required");
-        case 4:
-          _context9.next = 6;
-          return getAdmins(clubId);
-        case 6:
-          admins = _context9.sent;
-          if (admins) {
-            _context9.next = 9;
-            break;
-          }
-          throw new Error("No admins found");
-        case 9:
-          isAdmin = admins.find(function (admin) {
-            return admin.id == userId;
-          });
-          return _context9.abrupt("return", isAdmin);
+          _context9.prev = 0;
+          _context9.next = 3;
+          return _club["default"].findById(clubId).populate("admins");
+        case 3:
+          club = _context9.sent;
+          return _context9.abrupt("return", club.admins);
+        case 7:
+          _context9.prev = 7;
+          _context9.t0 = _context9["catch"](0);
+          console.error("Error getting admins:", _context9.t0);
+          throw _context9.t0;
         case 11:
         case "end":
           return _context9.stop();
       }
-    }, _callee9);
+    }, _callee9, null, [[0, 7]]);
   }));
-  return function checkAdmin(_x10, _x11) {
+  return function getAdmins(_x10) {
     return _ref9.apply(this, arguments);
   };
 }();
-var removeAdmin = /*#__PURE__*/function () {
+var checkAdmin = /*#__PURE__*/function () {
   var _ref10 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10(clubId, userId) {
-    var clubAdmins, isAdmin;
+    var admins, isAdmin;
     return _regeneratorRuntime().wrap(function _callee10$(_context10) {
       while (1) switch (_context10.prev = _context10.next) {
         case 0:
@@ -265,17 +244,59 @@ var removeAdmin = /*#__PURE__*/function () {
           _context10.next = 6;
           return getAdmins(clubId);
         case 6:
-          clubAdmins = _context10.sent;
+          admins = _context10.sent;
+          if (admins) {
+            _context10.next = 9;
+            break;
+          }
+          throw new Error("No admins found");
+        case 9:
+          isAdmin = admins.find(function (admin) {
+            return admin.id == userId;
+          });
+          return _context10.abrupt("return", isAdmin);
+        case 11:
+        case "end":
+          return _context10.stop();
+      }
+    }, _callee10);
+  }));
+  return function checkAdmin(_x11, _x12) {
+    return _ref10.apply(this, arguments);
+  };
+}();
+var removeAdmin = /*#__PURE__*/function () {
+  var _ref11 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11(clubId, userId) {
+    var clubAdmins, isAdmin;
+    return _regeneratorRuntime().wrap(function _callee11$(_context11) {
+      while (1) switch (_context11.prev = _context11.next) {
+        case 0:
+          if (userId) {
+            _context11.next = 2;
+            break;
+          }
+          throw new Error("User ID is required");
+        case 2:
+          if (clubId) {
+            _context11.next = 4;
+            break;
+          }
+          throw new Error("Club ID is required");
+        case 4:
+          _context11.next = 6;
+          return getAdmins(clubId);
+        case 6:
+          clubAdmins = _context11.sent;
           isAdmin = clubAdmins.find(function (admin) {
             return admin.id == userId;
           });
           if (isAdmin) {
-            _context10.next = 10;
+            _context11.next = 10;
             break;
           }
           throw new Error("User is not an admin");
         case 10:
-          _context10.next = 12;
+          _context11.next = 12;
           return _club["default"].findByIdAndUpdate(clubId, {
             $pull: {
               admins: userId
@@ -284,34 +305,34 @@ var removeAdmin = /*#__PURE__*/function () {
             "new": true
           }).populate("admins");
         case 12:
-          return _context10.abrupt("return", _context10.sent);
+          return _context11.abrupt("return", _context11.sent);
         case 13:
         case "end":
-          return _context10.stop();
+          return _context11.stop();
       }
-    }, _callee10);
+    }, _callee11);
   }));
-  return function removeAdmin(_x12, _x13) {
-    return _ref10.apply(this, arguments);
+  return function removeAdmin(_x13, _x14) {
+    return _ref11.apply(this, arguments);
   };
 }();
 var addEvent = /*#__PURE__*/function () {
-  var _ref11 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11(clubId, eventId) {
+  var _ref12 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee12(clubId, eventId) {
     var event;
-    return _regeneratorRuntime().wrap(function _callee11$(_context11) {
-      while (1) switch (_context11.prev = _context11.next) {
+    return _regeneratorRuntime().wrap(function _callee12$(_context12) {
+      while (1) switch (_context12.prev = _context12.next) {
         case 0:
-          _context11.next = 2;
+          _context12.next = 2;
           return _event.eventService.getEventById(eventId);
         case 2:
-          event = _context11.sent;
+          event = _context12.sent;
           if (event) {
-            _context11.next = 5;
+            _context12.next = 5;
             break;
           }
           throw new Error("Event not found");
         case 5:
-          _context11.next = 7;
+          _context12.next = 7;
           return _club["default"].findByIdAndUpdate(clubId, {
             $push: {
               events: eventId
@@ -320,49 +341,24 @@ var addEvent = /*#__PURE__*/function () {
             "new": true
           });
         case 7:
-          return _context11.abrupt("return", _context11.sent);
-        case 8:
-        case "end":
-          return _context11.stop();
-      }
-    }, _callee11);
-  }));
-  return function addEvent(_x14, _x15) {
-    return _ref11.apply(this, arguments);
-  };
-}();
-var getEvents = /*#__PURE__*/function () {
-  var _ref12 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee12(clubId) {
-    return _regeneratorRuntime().wrap(function _callee12$(_context12) {
-      while (1) switch (_context12.prev = _context12.next) {
-        case 0:
-          _context12.next = 2;
-          return _club["default"].findById(clubId).populate("events");
-        case 2:
           return _context12.abrupt("return", _context12.sent);
-        case 3:
+        case 8:
         case "end":
           return _context12.stop();
       }
     }, _callee12);
   }));
-  return function getEvents(_x16) {
+  return function addEvent(_x15, _x16) {
     return _ref12.apply(this, arguments);
   };
 }();
-var removeEvent = /*#__PURE__*/function () {
-  var _ref13 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee13(clubId, eventId) {
+var getEvents = /*#__PURE__*/function () {
+  var _ref13 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee13(clubId) {
     return _regeneratorRuntime().wrap(function _callee13$(_context13) {
       while (1) switch (_context13.prev = _context13.next) {
         case 0:
           _context13.next = 2;
-          return _club["default"].findByIdAndUpdate(clubId, {
-            $pull: {
-              events: eventId
-            }
-          }, {
-            "new": true
-          });
+          return _club["default"].findById(clubId).populate("events");
         case 2:
           return _context13.abrupt("return", _context13.sent);
         case 3:
@@ -371,8 +367,33 @@ var removeEvent = /*#__PURE__*/function () {
       }
     }, _callee13);
   }));
-  return function removeEvent(_x17, _x18) {
+  return function getEvents(_x17) {
     return _ref13.apply(this, arguments);
+  };
+}();
+var removeEvent = /*#__PURE__*/function () {
+  var _ref14 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee14(clubId, eventId) {
+    return _regeneratorRuntime().wrap(function _callee14$(_context14) {
+      while (1) switch (_context14.prev = _context14.next) {
+        case 0:
+          _context14.next = 2;
+          return _club["default"].findByIdAndUpdate(clubId, {
+            $pull: {
+              events: eventId
+            }
+          }, {
+            "new": true
+          });
+        case 2:
+          return _context14.abrupt("return", _context14.sent);
+        case 3:
+        case "end":
+          return _context14.stop();
+      }
+    }, _callee14);
+  }));
+  return function removeEvent(_x18, _x19) {
+    return _ref14.apply(this, arguments);
   };
 }();
 var clubService = exports.clubService = {
@@ -380,6 +401,7 @@ var clubService = exports.clubService = {
   getClubs: getClubs,
   getClubById: getClubById,
   getClubBySlug: getClubBySlug,
+  getClubByUserId: getClubByUserId,
   updateClub: updateClub,
   deleteClub: deleteClub,
   addAdmin: addAdmin,

@@ -12,6 +12,9 @@ var _routes = _interopRequireDefault(require("./routes"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var app = (0, _express["default"])();
 app.use((0, _cors["default"])({
+  origin: "*",
+  methods: "*",
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
 app.use(_bodyParser["default"].json());
