@@ -15,10 +15,16 @@ const createClub = async (req, res) => {
 
 const getClubs = async (req, res) => {
   const { slug } = req.query;
+  const { userId } = req.query;
 
   try {
     if (slug) {
       const club = await clubService.getClubBySlug(slug);
+      return res.json(club);
+    }
+
+    if (userId) {
+      const club = await clubService.getClubByUserId(userId);
       return res.json(club);
     }
 

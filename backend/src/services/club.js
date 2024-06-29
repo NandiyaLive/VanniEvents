@@ -29,6 +29,12 @@ const getClubBySlug = async (slug) => {
   }).populate("admins");
 };
 
+const getClubByUserId = async (userId) => {
+  return await Club.findOne({
+    admins: userId,
+  });
+};
+
 const updateClub = async (id, club) => {
   return await Club.findByIdAndUpdate(id, club, { new: true }).populate(
     "admins"
@@ -136,6 +142,7 @@ export const clubService = {
   getClubs,
   getClubById,
   getClubBySlug,
+  getClubByUserId,
   updateClub,
   deleteClub,
   addAdmin,
