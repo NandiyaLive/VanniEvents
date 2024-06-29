@@ -6,11 +6,15 @@ import userRoutes from "./user";
 import clubRoutes from "./club";
 import eventRoutes from "./event";
 import mongoose from "mongoose";
+import Status from "@/models/status";
 
 const router = express.Router();
 
 router.get("/", (req, res) => {
   const uptime = Math.round(process.uptime()) + "s";
+  Status.create({
+    status: mongoose.connection.readyState === 1 ? "UP" : "DOWN",
+  });
 
   res.json({
     message: "Welcome to VanniEvents API",

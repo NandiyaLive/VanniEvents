@@ -2,6 +2,7 @@ import { clubController } from "@/controllers/club";
 import {
   adminProtect,
   authenticate,
+  clubAdminProtect,
   superAdminProtect,
 } from "@/middlewares/auth";
 import validateData from "@/middlewares/validate";
@@ -40,7 +41,7 @@ club.delete(
   superAdminProtect,
   clubController.removeAdmin
 );
-club.post("/:id/events", authenticate, adminProtect, clubController.addEvent);
+club.post("/:id/events", authenticate, clubAdminProtect, clubController.addEvent);
 club.get("/:id/events", clubController.getEvents);
 club.delete("/:id/events/:eventId", clubController.removeEvent);
 

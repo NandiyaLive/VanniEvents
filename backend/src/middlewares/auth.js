@@ -24,7 +24,7 @@ const authenticate = async (req, res, next) => {
   try {
     const decodedToken = jwt.verify(token, JWT_SECRET);
     const user = await User.findById(decodedToken.userId);
-    
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -74,7 +74,7 @@ const clubAdminProtect = async (req, res, next) => {
         email: req.user.email,
         role: req.user.role,
       },
-      message: "You have to be an club admin to access this resource",
+      message: "You have to be an admin of the club to access this resource",
     });
   }
 
@@ -90,7 +90,7 @@ const clubAdminProtect = async (req, res, next) => {
         email: req.user.email,
         role: req.user.role,
       },
-      message: "You have to be an club admin to access this resource",
+      message: "You have to be an admin of the club to access this resource",
     });
   }
 
