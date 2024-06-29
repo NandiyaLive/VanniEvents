@@ -12,6 +12,9 @@ const app = express();
 
 app.use(
   cors({
+    origin: "*",
+    methods: "*",
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );

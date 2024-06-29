@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "vanni-events-api",
   "builds": [
     {
       "src": "dist/app.js",
