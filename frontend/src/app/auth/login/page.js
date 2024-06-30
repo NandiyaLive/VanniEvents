@@ -58,11 +58,13 @@ const Page = () => {
       const token = response.data.token;
 
       setCookie("token", token, {
-        maxAge: 60 * 60 * 24 * 7,
+        maxAge: 60 * 60 * 24,
         sameSite: "strict",
       });
 
-      router.push("/dashboard");
+      if (typeof location !== "undefined") {
+        location.reload();
+      }
     } catch (error) {
       const errorMessage = errorHandler(error);
 

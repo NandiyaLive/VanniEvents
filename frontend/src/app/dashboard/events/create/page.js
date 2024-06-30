@@ -19,6 +19,7 @@ import axios from "@/lib/axios";
 import { errorHandler } from "@/handlers/error-handler";
 import { useToast } from "@/components/ui/use-toast";
 import { RefreshCcw } from "lucide-react";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -35,6 +36,24 @@ const formSchema = z.object({
 
 const Page = ({ params }) => {
   const { toast } = useToast();
+  const [crietrias, setCrietrias] = useState([
+    {
+      faculty: "faculty",
+      values: ["FAS", "FOBS", "FOTS"],
+    },
+    {
+      crietria: "department",
+      values: {
+        FAS: ["Physical", "Bio"],
+        FOBS: ["Project Management", "Accounting"],
+        FOTS: ["Technology"],
+      },
+    },
+    {
+      crietria: "level",
+      values: [1, 2, 3, 4],
+    },
+  ]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -49,9 +68,22 @@ const Page = ({ params }) => {
 
   const onSubmit = async (values) => {
     values.clubId = params.id;
+    values.crietrias = [
+      {
+        crietria: "department",
+        values: ["Physical"],
+      },
+    ];
+
+    console.log(values);
 
     try {
-      const response = await axios.post("/events", values);
+      await axios.post("/events", values);
+
+      toast({
+        title: "Event created successfully.",
+        description: `The event "${values.name}" has been created successfully.`,
+      });
     } catch (error) {
       const errorMessage = errorHandler(error);
 

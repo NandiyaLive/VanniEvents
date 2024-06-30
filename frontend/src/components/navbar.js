@@ -42,22 +42,39 @@ const superAdminLinks = [
   },
 ];
 
+const adminLinks = [
+  {
+    title: "Dashboard",
+    href: "/dashboard",
+  },
+  {
+    title: "Events",
+    href: "/dashboard/events",
+  },
+];
+
 const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
 
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [navLinks, setNavLinks] = useState([...authLinks]);
 
-  const userRole = getCookie("role");
+  const userData = getCookie("user");
+  const userRole = user ? user.role : null;
 
   const handelLogout = () => {
     deleteCookie("token");
-    deleteCookie("role");
+    deleteCookie("user");
     router.push("/auth/login");
   };
 
   useEffect(() => {
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+
     setLoading(false);
   }, []);
 
@@ -66,8 +83,12 @@ const Navbar = () => {
       setNavLinks([...commonLinks]);
     }
 
-    if (userRole && userRole === "superadmin") {
+    if (userRole === "superadmin") {
       setNavLinks([...superAdminLinks, ...commonLinks]);
+    }
+
+    if (userRole === "admin") {
+      setNavLinks([...adminLinks, ...commonLinks]);
     }
   }, [userRole]);
 

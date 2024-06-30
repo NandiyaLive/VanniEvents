@@ -1,13 +1,11 @@
 export const errorHandler = (error) => {
-  let errorMessage;
-
-  if (error?.response?.data?.message) {
-    errorMessage = error.response.data.message;
-  } else {
-    errorMessage = error.message;
+  if (error?.response?.data?.error === "Internal Server Error") {
+    return "Internal Server Error";
   }
 
-  console.log(errorMessage);
-
-  return errorMessage;
+  if (error?.response?.data?.message) {
+    return error.response.data.message;
+  } else {
+    return error.message;
+  }
 };

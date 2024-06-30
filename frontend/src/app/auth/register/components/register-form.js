@@ -70,7 +70,7 @@ const RegisterForm = () => {
 
       router.push("/signin");
     } catch (error) {
-      console.error(error.response.data.message || error.message);
+      console.error(error.response?.data?.message || error.message);
     }
   };
 
@@ -236,7 +236,7 @@ const RegisterForm = () => {
                   <FormItem>
                     <FormLabel>Faculty</FormLabel>
                     <FormControl>
-                      <Input placeholder="Science" {...field} />
+                      <Input placeholder="FAS" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -250,7 +250,7 @@ const RegisterForm = () => {
                   <FormItem>
                     <FormLabel>Department</FormLabel>
                     <FormControl>
-                      <Input placeholder="Computer Science" {...field} />
+                      <Input placeholder="Physical" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

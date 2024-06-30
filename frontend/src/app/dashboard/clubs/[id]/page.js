@@ -6,7 +6,6 @@ import axios from "@/lib/axios";
 import useEffectOnce from "@/lib/use-effect-once";
 import Link from "next/link";
 import { useState } from "react";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { ConfirmDialog } from "./components/confirm-dialog";
 import { useToast } from "@/components/ui/use-toast";
 import AdminsTable from "./components/admins-table";
@@ -43,10 +42,6 @@ const Page = ({ params }) => {
         <h1 className="text-3xl font-bold">{clubData.name}</h1>
 
         <div className="flex items-center gap-4">
-          <Link href={`/dashboard/clubs/${params.id}/events`}>
-            <Button className="px-4">View Events</Button>
-          </Link>
-
           <Link href={`/dashboard/clubs/${params.id}/edit`}>
             <Button variant="secondary" className="px-4">
               Edit Club
@@ -66,24 +61,6 @@ const Page = ({ params }) => {
 
         <h2 className="text-xl font-semibold mt-4">Admins</h2>
         <AdminsTable admins={clubData.admins} params={params} />
-
-        <h2 className="text-xl font-semibold mt-4">Events</h2>
-
-        <Table>
-          <TableBody>
-            {clubData.events?.length ? (
-              clubData.events?.map((event) => (
-                <TableRow key={event._id}>
-                  <TableCell>{event.name}</TableCell>
-                  <TableCell>{event.description}</TableCell>
-                  <TableCell>{event.date}</TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <p className="text-gray-500">No events found.</p>
-            )}
-          </TableBody>
-        </Table>
       </section>
     </main>
   );

@@ -47,7 +47,7 @@ export const columns = [
 
       return (
         <div className="flex items-center space-x-2">
-          <Link href={`/dashboard/clubs/${clubId}`}>
+          <Link href={`/dashboard/events/${clubId}`}>
             <Button variant="secondary" size="sm" className="px-4">
               View
             </Button>

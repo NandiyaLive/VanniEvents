@@ -2,10 +2,16 @@ import { NextResponse } from "next/server";
 import { getCookie, setCookie } from "cookies-next";
 import { jwtVerify } from "jose";
 
-const userRoutes = ["/", "/events", "/profile", "/tickets"];
+const userRoutes = ["/profile", "/tickets"];
+const superAdminRoutes = ["/dashboard", "/clubs", "/users"];
+const clubAdminRoutes = ["/dashboard", "/events"];
 
-const checkIfAdmin = (payload) => {
-  return payload.role === "superadmin" || payload.role === "admin";
+const checkIfSuperAdmin = (payload) => {
+  return payload.role === "superAdmin";
+};
+
+const checkIfClubAdmin = (payload) => {
+  return payload.role === "admin";
 };
 
 const checkIfUser = (payload) => {
@@ -22,7 +28,7 @@ export async function middleware(req) {
 
   const token = getCookie("token", { res, req });
 
-  if (pathname.startsWith("/_next/")) {
+  if (pathname.startsWith("/_next/") || pathname.startsWith("/events")) {
     return NextResponse.next();
   }
 
@@ -33,10 +39,10 @@ export async function middleware(req) {
 
         const { payload } = await jwtVerify(token, secret);
 
-        setCookie("role", payload.role, { res, req });
+        setCookie("user", payload, { res, req });
 
         if (pathname.startsWith("/auth")) {
-          if (checkIfAdmin(payload)) {
+          if (checkIfClubAdmin(payload)) {
             return NextResponse.redirect(new URL("/dashboard", req.url));
           }
           if (checkIfUser(payload)) {
@@ -59,13 +65,13 @@ export async function middleware(req) {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const { payload } = await jwtVerify(token, secret);
 
-    setCookie("role", payload.role, { res, req });
+    setCookie("user", payload, { res, req });
 
-    if (checkIfAdmin(payload)) {
+    if (checkIfClubAdmin(payload)) {
       return res;
     }
 
-    if (pathname.startsWith("/dashboard") && !checkIfAdmin(payload)) {
+    if (pathname.startsWith("/dashboard") && !checkIfClubAdmin(payload)) {
       console.log("Admin access required for this route");
       return NextResponse.redirect(new URL("/auth/login", req.url));
     }
@@ -77,7 +83,7 @@ export async function middleware(req) {
     console.log("User is not allowed to access this route");
     return NextResponse.redirect(new URL("/", req.url));
   } catch (error) {
-    console.log("Error : ", error);
+    console.log("Invalid token", error);
     return NextResponse.redirect(new URL("/auth/login", req.url));
   }
 }
