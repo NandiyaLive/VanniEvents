@@ -5,13 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _auth = require("../middlewares/auth");
+var _status = _interopRequireDefault(require("../models/status"));
 var _express = _interopRequireDefault(require("express"));
+var _mongoose = _interopRequireDefault(require("mongoose"));
 var _auth2 = _interopRequireDefault(require("./auth"));
-var _user = _interopRequireDefault(require("./user"));
 var _club = _interopRequireDefault(require("./club"));
 var _event = _interopRequireDefault(require("./event"));
-var _mongoose = _interopRequireDefault(require("mongoose"));
-var _status = _interopRequireDefault(require("../models/status"));
+var _ticket = _interopRequireDefault(require("./ticket"));
+var _user = _interopRequireDefault(require("./user"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var router = _express["default"].Router();
 router.get("/", function (req, res) {
@@ -33,4 +34,5 @@ router.use("/auth", _auth2["default"]);
 router.use("/users", _auth.authenticate, _user["default"]);
 router.use("/clubs", _club["default"]);
 router.use("/events", _event["default"]);
+router.use("/tickets", _ticket["default"]);
 var _default = exports["default"] = router;

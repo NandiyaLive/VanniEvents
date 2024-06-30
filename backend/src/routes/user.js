@@ -1,7 +1,5 @@
 import express from "express";
 import { userController } from "@/controllers/user";
-import validateData from "@/middlewares/validate";
-import { registrationSchema } from "@/validations/auth";
 
 const user = express.Router();
 

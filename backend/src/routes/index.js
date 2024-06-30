@@ -1,12 +1,13 @@
 import { authenticate } from "@/middlewares/auth";
+import Status from "@/models/status";
 import express from "express";
+import mongoose from "mongoose";
 
 import authRoutes from "./auth";
-import userRoutes from "./user";
 import clubRoutes from "./club";
 import eventRoutes from "./event";
-import mongoose from "mongoose";
-import Status from "@/models/status";
+import ticketRoutes from "./ticket";
+import userRoutes from "./user";
 
 const router = express.Router();
 
@@ -31,5 +32,6 @@ router.use("/auth", authRoutes);
 router.use("/users", authenticate, userRoutes);
 router.use("/clubs", clubRoutes);
 router.use("/events", eventRoutes);
+router.use("/tickets", ticketRoutes);
 
 export default router;

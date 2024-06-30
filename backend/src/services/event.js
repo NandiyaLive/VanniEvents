@@ -11,7 +11,7 @@ const createEvent = async (event) => {
 };
 
 const getEvents = async () => {
-  return await Event.find();
+  return await Event.find().populate("organizer");
 };
 
 const getEventById = async (id) => {
@@ -19,7 +19,7 @@ const getEventById = async (id) => {
     throw new Error("Event ID is required");
   }
 
-  return await Event.findById(id);
+  return await Event.findById(id).populate("organizer");
 };
 
 const getEventsByClubId = async (clubId) => {
@@ -27,7 +27,7 @@ const getEventsByClubId = async (clubId) => {
     throw new Error("Club ID is required");
   }
 
-  return await Event.find({ organizer: clubId });
+  return await Event.find({ organizer: clubId }).populate("organizer");
 };
 
 const updateEvent = async (id, event) => {

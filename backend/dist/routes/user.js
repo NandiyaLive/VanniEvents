@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _express = _interopRequireDefault(require("express"));
 var _user = require("../controllers/user");
-var _validate = _interopRequireDefault(require("../middlewares/validate"));
-var _auth = require("../validations/auth");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var user = _express["default"].Router();
 user.get("/", _user.userController.getAllUsers);
