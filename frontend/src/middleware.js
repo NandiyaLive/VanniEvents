@@ -39,7 +39,7 @@ export async function middleware(req) {
 
         const { payload } = await jwtVerify(token, secret);
 
-        setCookie("user", payload, { res, req });
+        setCookie("user", payload, { sameSite: "strict", res, req });
 
         if (pathname.startsWith("/auth")) {
           if (checkIfClubAdmin(payload)) {
@@ -65,7 +65,7 @@ export async function middleware(req) {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const { payload } = await jwtVerify(token, secret);
 
-    setCookie("user", payload, { res, req });
+    setCookie("user", payload, { sameSite: "strict", res, req });
 
     if (checkIfClubAdmin(payload)) {
       return res;

@@ -73,6 +73,10 @@ export default function Page({ params }) {
     }
   }, []);
 
+  useEffect(() => {
+    handleRegistrationButtons();
+  }, [userId]);
+
   const handleRegistrationButtons = () => {
     if (loading) {
       return (
@@ -82,12 +86,20 @@ export default function Page({ params }) {
       );
     }
 
+    if (data?.ticketCount > data?.seats) {
+      return (
+        <Button size="lg" className="w-full" disabled>
+          No Seats Available
+        </Button>
+      );
+    }
+
     if (ticketData?._id) {
       return <ViewTicketAlert ticket={ticketData} />;
     }
 
-    if (userId) {
-      <GetTicketAlert event={data} userId={userId} />;
+    if (!ticketData && userId) {
+      return <GetTicketAlert event={data} userId={userId} />;
     }
 
     return (
