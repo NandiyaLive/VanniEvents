@@ -187,7 +187,9 @@ var deleteTicket = /*#__PURE__*/function () {
           _context5.next = 4;
           return _ticket.ticketService.deleteTicket(id);
         case 4:
-          res.status(204).end();
+          res.status(204).json({
+            message: "Ticket deleted successfully"
+          });
           _context5.next = 10;
           break;
         case 7:

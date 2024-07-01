@@ -1,4 +1,5 @@
 import { eventService } from "@/services/event";
+import { ticketService } from "@/services/ticket";
 
 const createEvent = async (req, res) => {
   const payload = req.body;
@@ -25,7 +26,10 @@ const getEventById = async (req, res) => {
 
   try {
     const event = await eventService.getEventById(id);
-    res.status(200).json(event);
+
+    const ticketCount = await ticketService.getTicketCountByEvent(id);
+
+    res.status(200).json({ ...event._doc, ticketCount });
   } catch (error) {
     res.status(404).json({ message: "Event not found" });
   }

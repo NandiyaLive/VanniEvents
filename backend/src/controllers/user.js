@@ -1,5 +1,6 @@
 import { userService } from "@/services/user";
 import errorHandler from "@/utils/error-handler";
+import bcrypt from "bcrypt";
 
 const getAllUsers = async (req, res) => {
   const { role } = req.query;
@@ -49,12 +50,37 @@ const updateUser = async (req, res) => {
   }
 };
 
+const changePassword = async (req, res) => {
+  const { id } = req.params;
+  const { oldPassword, newPassword, confirmPassword } = req.body;
+
+  try {
+    const user = await userService.getUserById(id);
+
+    const isMatch = bcrypt.compareSync(oldPassword, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid password" });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
+    }
+
+    await userService.changePassword(id, newPassword);
+
+    res.status(204).json({ message: "Password changed" });
+  } catch (error) {
+    errorHandler(error, res);
+  }
+};
+
 const deleteUser = async (req, res) => {
   const { id } = req.params;
 
   try {
     await userService.deleteUser(id);
-    res.status(204).end();
+    res.status(204).json({ message: "User deleted" });
   } catch (error) {
     errorHandler(error, res);
   }
@@ -66,4 +92,5 @@ export const userController = {
   getUserByEmail,
   updateUser,
   deleteUser,
+  changePassword,
 };

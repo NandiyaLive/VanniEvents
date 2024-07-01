@@ -44,6 +44,14 @@ const getTicketByUserAndEvent = async (userId, eventId) => {
   }
 };
 
+const getTicketCountByEvent = async (eventId) => {
+  try {
+    return await Ticket.countDocuments({ event: eventId });
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 const createTicket = async (payload) => {
   try {
     return await Ticket.create(payload);
@@ -73,6 +81,7 @@ export const ticketService = {
   getTicketById,
   getTicketsByUserId,
   getTicketByUserAndEvent,
+  getTicketCountByEvent,
   createTicket,
   updateTicket,
   deleteTicket,

@@ -85,7 +85,7 @@ const deleteTicket = async (req, res) => {
 
   try {
     await ticketService.deleteTicket(id);
-    res.status(204).end();
+    res.status(204).json({ message: "Ticket deleted successfully" });
   } catch (error) {
     errorHandler(error, res);
   }

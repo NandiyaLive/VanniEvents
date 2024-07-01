@@ -153,50 +153,75 @@ var updateUser = /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }();
-var deleteUser = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(id) {
+var changePassword = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(id, password) {
+    var hash;
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
-          _context5.next = 2;
-          return _user["default"].findByIdAndDelete(id);
-        case 2:
-          return _context5.abrupt("return", _context5.sent);
+          hash = (0, _auth.hashPassword)(password);
+          _context5.next = 3;
+          return _user["default"].findByIdAndUpdate(id, {
+            password: hash
+          }, {
+            "new": true
+          });
         case 3:
+          return _context5.abrupt("return", _context5.sent);
+        case 4:
         case "end":
           return _context5.stop();
       }
     }, _callee5);
   }));
-  return function deleteUser(_x7) {
+  return function changePassword(_x7, _x8) {
     return _ref5.apply(this, arguments);
   };
 }();
-var checkUserRole = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(userId, role) {
-    var user;
+var deleteUser = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(id) {
     return _regeneratorRuntime().wrap(function _callee6$(_context6) {
       while (1) switch (_context6.prev = _context6.next) {
         case 0:
           _context6.next = 2;
-          return getUserById(userId);
+          return _user["default"].findByIdAndDelete(id);
         case 2:
-          user = _context6.sent;
-          if (user) {
-            _context6.next = 5;
-            break;
-          }
-          throw new Error("User not found");
-        case 5:
-          return _context6.abrupt("return", user.role === role);
-        case 6:
+          return _context6.abrupt("return", _context6.sent);
+        case 3:
         case "end":
           return _context6.stop();
       }
     }, _callee6);
   }));
-  return function checkUserRole(_x8, _x9) {
+  return function deleteUser(_x9) {
     return _ref6.apply(this, arguments);
+  };
+}();
+var checkUserRole = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(userId, role) {
+    var user;
+    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+      while (1) switch (_context7.prev = _context7.next) {
+        case 0:
+          _context7.next = 2;
+          return getUserById(userId);
+        case 2:
+          user = _context7.sent;
+          if (user) {
+            _context7.next = 5;
+            break;
+          }
+          throw new Error("User not found");
+        case 5:
+          return _context7.abrupt("return", user.role === role);
+        case 6:
+        case "end":
+          return _context7.stop();
+      }
+    }, _callee7);
+  }));
+  return function checkUserRole(_x10, _x11) {
+    return _ref7.apply(this, arguments);
   };
 }();
 var userService = exports.userService = {
@@ -205,5 +230,6 @@ var userService = exports.userService = {
   getUserByEmail: getUserByEmail,
   updateUser: updateUser,
   deleteUser: deleteUser,
+  changePassword: changePassword,
   checkUserRole: checkUserRole
 };

@@ -144,14 +144,16 @@ var getTicketByUserAndEvent = /*#__PURE__*/function () {
     return _ref5.apply(this, arguments);
   };
 }();
-var createTicket = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(payload) {
+var getTicketCountByEvent = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(eventId) {
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
           _context5.prev = 0;
           _context5.next = 3;
-          return _ticket["default"].create(payload);
+          return _ticket["default"].countDocuments({
+            event: eventId
+          });
         case 3:
           return _context5.abrupt("return", _context5.sent);
         case 6:
@@ -164,20 +166,18 @@ var createTicket = /*#__PURE__*/function () {
       }
     }, _callee5, null, [[0, 6]]);
   }));
-  return function createTicket(_x6) {
+  return function getTicketCountByEvent(_x6) {
     return _ref6.apply(this, arguments);
   };
 }();
-var updateTicket = /*#__PURE__*/function () {
-  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(id, payload) {
+var createTicket = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(payload) {
     return _regeneratorRuntime().wrap(function _callee6$(_context6) {
       while (1) switch (_context6.prev = _context6.next) {
         case 0:
           _context6.prev = 0;
           _context6.next = 3;
-          return _ticket["default"].findByIdAndUpdate(id, payload, {
-            "new": true
-          });
+          return _ticket["default"].create(payload);
         case 3:
           return _context6.abrupt("return", _context6.sent);
         case 6:
@@ -190,18 +190,20 @@ var updateTicket = /*#__PURE__*/function () {
       }
     }, _callee6, null, [[0, 6]]);
   }));
-  return function updateTicket(_x7, _x8) {
+  return function createTicket(_x7) {
     return _ref7.apply(this, arguments);
   };
 }();
-var deleteTicket = /*#__PURE__*/function () {
-  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(id) {
+var updateTicket = /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(id, payload) {
     return _regeneratorRuntime().wrap(function _callee7$(_context7) {
       while (1) switch (_context7.prev = _context7.next) {
         case 0:
           _context7.prev = 0;
           _context7.next = 3;
-          return _ticket["default"].findByIdAndDelete(id);
+          return _ticket["default"].findByIdAndUpdate(id, payload, {
+            "new": true
+          });
         case 3:
           return _context7.abrupt("return", _context7.sent);
         case 6:
@@ -214,8 +216,32 @@ var deleteTicket = /*#__PURE__*/function () {
       }
     }, _callee7, null, [[0, 6]]);
   }));
-  return function deleteTicket(_x9) {
+  return function updateTicket(_x8, _x9) {
     return _ref8.apply(this, arguments);
+  };
+}();
+var deleteTicket = /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(id) {
+    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+      while (1) switch (_context8.prev = _context8.next) {
+        case 0:
+          _context8.prev = 0;
+          _context8.next = 3;
+          return _ticket["default"].findByIdAndDelete(id);
+        case 3:
+          return _context8.abrupt("return", _context8.sent);
+        case 6:
+          _context8.prev = 6;
+          _context8.t0 = _context8["catch"](0);
+          throw new Error(_context8.t0);
+        case 9:
+        case "end":
+          return _context8.stop();
+      }
+    }, _callee8, null, [[0, 6]]);
+  }));
+  return function deleteTicket(_x10) {
+    return _ref9.apply(this, arguments);
   };
 }();
 var ticketService = exports.ticketService = {
@@ -223,6 +249,7 @@ var ticketService = exports.ticketService = {
   getTicketById: getTicketById,
   getTicketsByUserId: getTicketsByUserId,
   getTicketByUserAndEvent: getTicketByUserAndEvent,
+  getTicketCountByEvent: getTicketCountByEvent,
   createTicket: createTicket,
   updateTicket: updateTicket,
   deleteTicket: deleteTicket

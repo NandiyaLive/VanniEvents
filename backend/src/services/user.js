@@ -65,6 +65,12 @@ const updateUser = async (id, payload, user) => {
   return await User.findByIdAndUpdate(id, payload, { new: true });
 };
 
+const changePassword = async (id, password) => {
+  const hash = hashPassword(password);
+
+  return await User.findByIdAndUpdate(id, { password: hash }, { new: true });
+};
+
 const deleteUser = async (id) => {
   return await User.findByIdAndDelete(id);
 };
@@ -85,5 +91,6 @@ export const userService = {
   getUserByEmail,
   updateUser,
   deleteUser,
+  changePassword,
   checkUserRole,
 };

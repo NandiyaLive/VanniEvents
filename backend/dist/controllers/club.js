@@ -190,7 +190,9 @@ var deleteClub = /*#__PURE__*/function () {
           _context6.next = 4;
           return _club2.clubService.deleteClub(id);
         case 4:
-          res.status(204).end();
+          res.status(204).json({
+            message: "Club deleted successfully"
+          });
           _context6.next = 10;
           break;
         case 7:

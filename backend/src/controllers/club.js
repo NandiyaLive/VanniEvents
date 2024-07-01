@@ -70,7 +70,7 @@ const deleteClub = async (req, res) => {
   const { id } = req.params;
   try {
     await clubService.deleteClub(id);
-    res.status(204).end();
+    res.status(204).json({ message: "Club deleted successfully" });
   } catch (error) {
     errorHandler(error, res);
   }
