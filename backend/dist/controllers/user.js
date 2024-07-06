@@ -149,43 +149,56 @@ var changePassword = /*#__PURE__*/function () {
           _req$body = req.body, oldPassword = _req$body.oldPassword, newPassword = _req$body.newPassword, confirmPassword = _req$body.confirmPassword;
           _context5.prev = 2;
           _context5.next = 5;
-          return _user.userService.getUserById(id);
+          return _user.userService.getUserById(id, {
+            withPassowrd: true
+          });
         case 5:
           user = _context5.sent;
+          if (user) {
+            _context5.next = 8;
+            break;
+          }
+          return _context5.abrupt("return", res.status(404).json({
+            message: "User not found"
+          }));
+        case 8:
+          console.log(user.password, oldPassword);
           isMatch = _bcrypt["default"].compareSync(oldPassword, user.password);
           if (isMatch) {
-            _context5.next = 9;
+            _context5.next = 12;
             break;
           }
           return _context5.abrupt("return", res.status(400).json({
             message: "Invalid password"
           }));
-        case 9:
+        case 12:
           if (!(newPassword !== confirmPassword)) {
-            _context5.next = 11;
+            _context5.next = 14;
             break;
           }
           return _context5.abrupt("return", res.status(400).json({
             message: "Passwords do not match"
           }));
-        case 11:
-          _context5.next = 13;
+        case 14:
+          _context5.next = 16;
           return _user.userService.changePassword(id, newPassword);
-        case 13:
-          res.status(204).json({
-            message: "Password changed"
-          });
-          _context5.next = 19;
-          break;
         case 16:
-          _context5.prev = 16;
+          user.password = undefined;
+          res.status(200).json({
+            message: "Password changed",
+            user: user
+          });
+          _context5.next = 23;
+          break;
+        case 20:
+          _context5.prev = 20;
           _context5.t0 = _context5["catch"](2);
           (0, _errorHandler["default"])(_context5.t0, res);
-        case 19:
+        case 23:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[2, 16]]);
+    }, _callee5, null, [[2, 20]]);
   }));
   return function changePassword(_x9, _x10) {
     return _ref5.apply(this, arguments);

@@ -51,7 +51,7 @@ var getAllUsers = /*#__PURE__*/function () {
   };
 }();
 var getUserById = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(id) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(id, withPassword) {
     var user;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
@@ -64,7 +64,9 @@ var getUserById = /*#__PURE__*/function () {
             _context2.next = 7;
             break;
           }
-          user.password = undefined;
+          if (!withPassword) {
+            user.password = undefined;
+          }
           _context2.next = 8;
           break;
         case 7:
@@ -77,7 +79,7 @@ var getUserById = /*#__PURE__*/function () {
       }
     }, _callee2);
   }));
-  return function getUserById(_x2) {
+  return function getUserById(_x2, _x3) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -110,13 +112,12 @@ var getUserByEmail = /*#__PURE__*/function () {
       }
     }, _callee3);
   }));
-  return function getUserByEmail(_x3) {
+  return function getUserByEmail(_x4) {
     return _ref3.apply(this, arguments);
   };
 }();
 var updateUser = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(id, payload, user) {
-    var password, hash;
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
@@ -132,24 +133,19 @@ var updateUser = /*#__PURE__*/function () {
           }
           throw new Error("You are not permitted to assign this role");
         case 4:
-          if (payload.password) {
-            password = payload.password;
-            hash = (0, _auth.hashPassword)(password);
-            payload.password = hash;
-          }
-          _context4.next = 7;
+          _context4.next = 6;
           return _user["default"].findByIdAndUpdate(id, payload, {
             "new": true
           });
-        case 7:
+        case 6:
           return _context4.abrupt("return", _context4.sent);
-        case 8:
+        case 7:
         case "end":
           return _context4.stop();
       }
     }, _callee4);
   }));
-  return function updateUser(_x4, _x5, _x6) {
+  return function updateUser(_x5, _x6, _x7) {
     return _ref4.apply(this, arguments);
   };
 }();
@@ -174,7 +170,7 @@ var changePassword = /*#__PURE__*/function () {
       }
     }, _callee5);
   }));
-  return function changePassword(_x7, _x8) {
+  return function changePassword(_x8, _x9) {
     return _ref5.apply(this, arguments);
   };
 }();
@@ -193,7 +189,7 @@ var deleteUser = /*#__PURE__*/function () {
       }
     }, _callee6);
   }));
-  return function deleteUser(_x9) {
+  return function deleteUser(_x10) {
     return _ref6.apply(this, arguments);
   };
 }();
@@ -220,7 +216,7 @@ var checkUserRole = /*#__PURE__*/function () {
       }
     }, _callee7);
   }));
-  return function checkUserRole(_x10, _x11) {
+  return function checkUserRole(_x11, _x12) {
     return _ref7.apply(this, arguments);
   };
 }();

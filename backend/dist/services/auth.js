@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.authService = void 0;
+exports.hashPassword = exports.authService = void 0;
 var _user = _interopRequireDefault(require("../models/user.js"));
 var _config = require("../utils/config.js");
 var _bcrypt = require("bcrypt");
@@ -18,7 +18,7 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-var hashPassword = function hashPassword(password) {
+var hashPassword = exports.hashPassword = function hashPassword(password) {
   var salt = (0, _bcrypt.genSaltSync)(_config.SALT_ROUNDS);
   var hash = (0, _bcrypt.hashSync)(password, salt);
   return hash;
@@ -101,6 +101,5 @@ var authService = exports.authService = {
   register: register,
   login: login,
   generateToken: generateToken,
-  decodedToken: decodedToken,
-  hashPassword: hashPassword
+  decodedToken: decodedToken
 };
