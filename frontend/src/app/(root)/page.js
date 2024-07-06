@@ -5,35 +5,24 @@ import eventImage from "@public/event.jpg";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import CommunitySvg from "./components/community-svg";
-import axios from "@/lib/axios";
-import { errorHandler } from "@/handlers/error-handler";
 import { useToast } from "@/components/ui/use-toast";
-import { Suspense, useEffect, useState } from "react";
 import { truncate } from "@/lib/utils";
+import { useGetEvents } from "@/hooks/events";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Home() {
   const { toast } = useToast();
 
-  const [data, setData] = useState([]);
+  const dataQuery = useGetEvents();
+  const { data, isLoading, error } = dataQuery;
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("/events");
-      setData(response.data);
-    } catch (error) {
-      const errorMessage = errorHandler(error);
-
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: errorMessage,
-      });
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  if (error) {
+    toast({
+      title: "Error",
+      description: "Failed to fetch events",
+      status: "error",
+    });
+  }
 
   return (
     <main className="container max-w-8xl min-h-screen mt-8">
@@ -63,10 +52,15 @@ export default function Home() {
         <h2 className="text-3xl font-semibold text-gray-900">
           Upcoming Events
         </h2>
-
         <div className="grid grid-cols-3 gap-4 mt-8">
-          <Suspense fallback={<div>Loading...</div>}>
-            {data?.map((event) => (
+          {isLoading ? (
+            <>
+              <Skeleton className="h-64" />
+              <Skeleton className="h-64" />
+              <Skeleton className="h-64" />
+            </>
+          ) : (
+            data?.map((event) => (
               <Link key={event._id} href={`/events/${event._id}`}>
                 <div className="bg-white border rounded-lg p-4">
                   <div className="relative h-40">
@@ -94,8 +88,8 @@ export default function Home() {
                   </div>
                 </div>
               </Link>
-            ))}
-          </Suspense>
+            ))
+          )}
         </div>
       </section>
 

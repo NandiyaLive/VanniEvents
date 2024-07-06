@@ -1,10 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import eventImage from "@public/event.jpg";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import CommunitySvg from "./components/community-svg";
 import axios from "@/lib/axios";
 import { errorHandler } from "@/handlers/error-handler";
 import { useToast } from "@/components/ui/use-toast";
@@ -37,34 +34,12 @@ export default function Page() {
 
   return (
     <main className="container max-w-8xl min-h-screen mt-8">
-      <section className="h-[50vh] relative isolate">
-        <Image
-          src={eventImage}
-          alt="University"
-          className="w-full h-full object-cover rounded-lg"
-          fill
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg z-10" />
-        <div className="text-center absolute inset-0 flex flex-col items-center justify-center mt-40 text-white z-50">
-          <h1 className="text-4xl font-bold ">VanniEvents</h1>
-          <p className="mt-2 text-xl text-gray-300">
-            Elevate Your Experience — Connect, Participate, Enjoy
-          </p>
-
-          <Link href="/auth/register">
-            <Button size="lg" variant="secondary" className="mt-4">
-              Get Started
-            </Button>
-          </Link>
-        </div>
-      </section>
-
-      <section className="mx-auto my-20">
+      <section className="mx-auto my-12">
         <h2 className="text-3xl font-semibold text-gray-900">
           Upcoming Events
         </h2>
 
-        <div className="grid grid-cols-3 gap-4 mt-8">
+        <div className="grid grid-cols-3 gap-4 mt-4">
           <Suspense fallback={<div>Loading...</div>}>
             {data?.map((event) => (
               <Link key={event._id} href={`/events/${event._id}`}>
@@ -96,28 +71,6 @@ export default function Page() {
               </Link>
             ))}
           </Suspense>
-        </div>
-      </section>
-
-      <section className="my-20 p-16 bg-green-50 rounded-lg flex justify-between gap-20">
-        <div>
-          <h2 className="text-3xl font-semibold text-gray-900">
-            Join VanniEvents
-          </h2>
-          <p className="mt-2 text-gray-700">
-            Students and clubs use VanniEvents to stay updated on university
-            happenings, simplify event management, and foster community
-            engagement. Membership is free and open to all university members.
-          </p>
-
-          <Link href="/auth/register">
-            <Button size="lg" variant="destructive" className="mt-4">
-              Get Started
-            </Button>
-          </Link>
-        </div>
-        <div>
-          <CommunitySvg className="w-96 " />
         </div>
       </section>
     </main>

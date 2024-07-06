@@ -62,8 +62,8 @@ const Page = () => {
         sameSite: "strict",
       });
 
-      if (typeof location !== "undefined") {
-        location.reload();
+      if (typeof window !== "undefined") {
+        router.push("/");
       }
     } catch (error) {
       const errorMessage = errorHandler(error);

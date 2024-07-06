@@ -11,6 +11,10 @@ import { useEffect, useState } from "react";
 
 const commonLinks = [
   {
+    title: "Events",
+    href: "/events",
+  },
+  {
     title: "Profile",
     href: "/profile",
   },

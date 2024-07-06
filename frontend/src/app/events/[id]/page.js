@@ -8,36 +8,27 @@ import { useEffect, useState } from "react";
 import { Clock } from "lucide-react";
 import { Map } from "lucide-react";
 import { GetTicketAlert } from "./components/get-ticket-alert";
-import useEffectOnce from "@/lib/use-effect-once";
 import { getCookie } from "cookies-next";
 import { ViewTicketAlert } from "./components/view-ticket-alert";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useGetEventById } from "@/hooks/events";
+import Logo from "@/components/logo";
 
 export default function Page({ params }) {
   const { toast } = useToast();
 
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(null);
   const [ticketData, setTicketData] = useState(null);
+
+  const {
+    data: eventData,
+    error,
+    isLoading: eventLoading,
+  } = useGetEventById(params.id);
 
   const user = getCookie("user");
   const userId = user && JSON.parse(user)?.userId;
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`/events/${params.id}`);
-      setData(response.data);
-    } catch (error) {
-      const errorMessage = errorHandler(error);
-
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: errorMessage,
-      });
-    }
-  };
 
   const fetchTicketData = async () => {
     setLoading(true);
@@ -61,10 +52,6 @@ export default function Page({ params }) {
     }
   };
 
-  useEffectOnce(() => {
-    fetchData();
-  }, []);
-
   useEffect(() => {
     if (userId) {
       fetchTicketData();
@@ -86,7 +73,7 @@ export default function Page({ params }) {
       );
     }
 
-    if (data?.ticketCount > data?.seats) {
+    if (eventData?.ticketCount > eventData?.seats) {
       return (
         <Button size="lg" className="w-full" disabled>
           No Seats Available
@@ -99,7 +86,7 @@ export default function Page({ params }) {
     }
 
     if (!ticketData && userId) {
-      return <GetTicketAlert event={data} userId={userId} />;
+      return <GetTicketAlert event={eventData} userId={userId} />;
     }
 
     return (
@@ -123,22 +110,26 @@ export default function Page({ params }) {
         <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg z-10" />
 
         <h1 className="text-4xl font-bold text-white text-center absolute inset-0 flex flex-col items-center justify-center mt-40 z-50">
-          {data?.name}
+          {eventData?.name}
         </h1>
       </section>
 
-      {data ? (
+      {eventLoading ? (
+        <div className="flex items-center justify-center h-96">
+          <Logo className="h-16 animate-pulse" />
+        </div>
+      ) : (
         <section className="mx-auto my-8 grid grid-cols-3 gap-8">
           <section className="col-span-2">
             <h4 className="text-2xl font-bold">Event Details</h4>
-            <p className="mt-2 text-gray-600">{data?.description}</p>
+            <p className="mt-2 text-gray-600">{eventData?.description}</p>
           </section>
 
           <section className="col-span-1 space-y-4">
             <div className="border p-4 rounded-lg">
-              <h5 className="text-xl font-bold">{data?.organizer.name}</h5>
+              <h5 className="text-xl font-bold">{eventData?.organizer.name}</h5>
               <p className="mt-2 text-gray-600">
-                {data?.organizer.description}
+                {eventData?.organizer.description}
               </p>
             </div>
 
@@ -147,28 +138,26 @@ export default function Page({ params }) {
                 <Clock size={24} />
                 <div>
                   <p>
-                    {new Date(data?.date).toLocaleDateString("en-US", {
+                    {new Date(eventData?.date).toLocaleDateString("en-US", {
                       weekday: "long",
                       year: "numeric",
                       month: "long",
                       day: "numeric",
                     })}
                   </p>
-                  <p>{data?.time}</p>
+                  <p>{eventData?.time}</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-4 mt-4">
                 <Map size={24} />
-                <p>{data?.venue}</p>
+                <p>{eventData?.venue}</p>
               </div>
             </div>
 
             {handleRegistrationButtons()}
           </section>
         </section>
-      ) : (
-        <div className="my-8">Loading...</div>
       )}
     </main>
   );

@@ -67,7 +67,7 @@ const Page = ({ params }) => {
   });
 
   const onSubmit = async (values) => {
-    values.clubId = params.id;
+    values.clubId = "6682e9b9f3686ec04c15810a";
     values.crietrias = [
       {
         crietria: "department",
@@ -136,10 +136,12 @@ const Page = ({ params }) => {
                         const eventName = form.getValues("name");
 
                         if (eventName) {
-                          form.setValue(
-                            "slug",
-                            eventName.toLowerCase().replace(/ /g, "-")
-                          );
+                          const slug = eventName
+                            .replace(/[^a-zA-Z0-9\s]/g, "")
+                            .replace(/\s+/g, "-")
+                            .toLowerCase();
+
+                          form.setValue("slug", slug);
                         }
                       }}
                     >

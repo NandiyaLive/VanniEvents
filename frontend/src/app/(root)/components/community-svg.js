@@ -1,3 +1,5 @@
+"use client";
+
 const CommunitySvg = ({ className }) => {
   return (
     <svg

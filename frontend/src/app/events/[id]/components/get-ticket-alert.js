@@ -40,6 +40,10 @@ export function GetTicketAlert({ event, userId }) {
         title: "Ticket purchased!",
         description: `Your ticket has been successfully purchased for ${event.name}.`,
       });
+
+      if (typeof window !== "undefined") {
+        window.location.reload();
+      }
     } catch (error) {
       const errorMessage = errorHandler(error);
 
