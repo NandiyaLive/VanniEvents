@@ -32,7 +32,7 @@ var registrationSchema = exports.registrationSchema = _zod.z.object({
     message: "Invalid phone number"
   }),
   role: _zod.z.string().refine(function (role) {
-    return role !== "admin";
+    return role !== "superadmin";
   }, {
     message: "You are not authorized to create an admin account"
   }).optional(),

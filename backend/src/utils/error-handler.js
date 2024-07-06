@@ -1,5 +1,5 @@
 const errorHandler = (err, res) => {
-  // console.log(err);
+  console.log(err);
 
   if (err.name === "ZodError") {
     const errorMessages = err.errors.map((issue) => ({

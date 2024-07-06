@@ -40,6 +40,10 @@ const updateUser = async (req, res) => {
   const payload = req.body;
   const user = req.user;
 
+  if (payload.password) {
+    return res.status(400).json({ message: "Cannot update password here" });
+  }
+
   try {
     const updatedUser = await userService.updateUser(id, payload, user);
     delete updatedUser.password;
@@ -55,7 +59,13 @@ const changePassword = async (req, res) => {
   const { oldPassword, newPassword, confirmPassword } = req.body;
 
   try {
-    const user = await userService.getUserById(id);
+    const user = await userService.getUserById(id, { withPassowrd: true });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    console.log(user.password, oldPassword);
 
     const isMatch = bcrypt.compareSync(oldPassword, user.password);
 
@@ -69,7 +79,9 @@ const changePassword = async (req, res) => {
 
     await userService.changePassword(id, newPassword);
 
-    res.status(204).json({ message: "Password changed" });
+    user.password = undefined;
+
+    res.status(200).json({ message: "Password changed", user });
   } catch (error) {
     errorHandler(error, res);
   }

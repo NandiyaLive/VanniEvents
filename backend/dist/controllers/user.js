@@ -108,24 +108,32 @@ var updateUser = /*#__PURE__*/function () {
           id = req.params.id;
           payload = req.body;
           user = req.user;
-          _context4.prev = 3;
-          _context4.next = 6;
+          if (!payload.password) {
+            _context4.next = 5;
+            break;
+          }
+          return _context4.abrupt("return", res.status(400).json({
+            message: "Cannot update password here"
+          }));
+        case 5:
+          _context4.prev = 5;
+          _context4.next = 8;
           return _user.userService.updateUser(id, payload, user);
-        case 6:
+        case 8:
           updatedUser = _context4.sent;
           delete updatedUser.password;
           res.status(200).json(updatedUser);
-          _context4.next = 14;
+          _context4.next = 16;
           break;
-        case 11:
-          _context4.prev = 11;
-          _context4.t0 = _context4["catch"](3);
+        case 13:
+          _context4.prev = 13;
+          _context4.t0 = _context4["catch"](5);
           (0, _errorHandler["default"])(_context4.t0, res);
-        case 14:
+        case 16:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[3, 11]]);
+    }, _callee4, null, [[5, 13]]);
   }));
   return function updateUser(_x7, _x8) {
     return _ref4.apply(this, arguments);

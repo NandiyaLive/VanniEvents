@@ -19,11 +19,13 @@ const getAllUsers = async (role) => {
   return users;
 };
 
-const getUserById = async (id) => {
+const getUserById = async (id, withPassword) => {
   const user = await User.findById(id);
 
   if (user) {
-    user.password = undefined;
+    if (!withPassword) {
+      user.password = undefined;
+    }
   } else {
     throw new Error("User not found");
   }
@@ -52,14 +54,6 @@ const updateUser = async (id, payload, user) => {
 
   if (payload.role === "admin" && user.role !== "superadmin") {
     throw new Error("You are not permitted to assign this role");
-  }
-
-  if (payload.password) {
-    const { password } = payload;
-
-    const hash = hashPassword(password);
-
-    payload.password = hash;
   }
 
   return await User.findByIdAndUpdate(id, payload, { new: true });

@@ -26,7 +26,7 @@ export const registrationSchema = z
     phone: z.string().min(10, { message: "Invalid phone number" }),
     role: z
       .string()
-      .refine((role) => role !== "admin", {
+      .refine((role) => role !== "superadmin", {
         message: "You are not authorized to create an admin account",
       })
       .optional(),
