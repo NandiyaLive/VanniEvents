@@ -45,16 +45,22 @@ const deleteClub = async (id) => {
   return await Club.findByIdAndDelete(id);
 };
 
-const addAdmin = async (clubId, userId) => {
-  const isAdmin = userService.checkUserRole(userId, "admin");
-
-  if (!isAdmin) {
-    throw new Error("User is not an admin");
+const addAdmin = async (clubId, userIds) => {
+  if (!userIds) {
+    throw new Error("User IDs are required");
   }
+
+  userIds.forEach(async (userId) => {
+    const isAdmin = userService.checkUserRole(userId, "admin");
+
+    if (!isAdmin) {
+      throw new Error("User is not an admin");
+    }
+  });
 
   return await Club.findByIdAndUpdate(
     clubId,
-    { $push: { admins: userId } },
+    { $push: { admins: { $each: userIds } } },
     { new: true }
   ).populate("admins");
 };
@@ -62,6 +68,10 @@ const addAdmin = async (clubId, userId) => {
 const getAdmins = async (clubId) => {
   try {
     const club = await Club.findById(clubId).populate("admins");
+
+    if (!club) {
+      throw new Error("Club not found");
+    }
 
     return club.admins;
   } catch (error) {

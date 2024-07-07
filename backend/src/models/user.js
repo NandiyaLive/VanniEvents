@@ -53,12 +53,6 @@ const UserSchema = new Schema(
       type: String,
       enum: MEAL_PREF,
     },
-    tickets: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Ticket",
-      },
-    ],
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

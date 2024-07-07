@@ -60,11 +60,7 @@ var UserSchema = new _mongoose.Schema({
   meal_pref: {
     type: String,
     "enum": _constants.MEAL_PREF
-  },
-  tickets: [{
-    type: _mongoose.Schema.Types.ObjectId,
-    ref: "Ticket"
-  }]
+  }
 }, {
   timestamps: {
     createdAt: "created_at",

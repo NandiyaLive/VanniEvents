@@ -78,10 +78,10 @@ const deleteClub = async (req, res) => {
 
 const addAdmin = async (req, res) => {
   const { id: clubId } = req.params;
-  const { userId } = req.body;
+  const { userIds } = req.body;
 
   try {
-    const club = await clubService.addAdmin(clubId, userId);
+    const club = await clubService.addAdmin(clubId, userIds);
     res.json(club);
   } catch (error) {
     errorHandler(error, res);

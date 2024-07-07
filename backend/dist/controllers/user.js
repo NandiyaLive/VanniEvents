@@ -211,24 +211,32 @@ var deleteUser = /*#__PURE__*/function () {
       while (1) switch (_context6.prev = _context6.next) {
         case 0:
           id = req.params.id;
-          _context6.prev = 1;
-          _context6.next = 4;
+          if (id) {
+            _context6.next = 3;
+            break;
+          }
+          return _context6.abrupt("return", res.status(400).json({
+            message: "User ID is required"
+          }));
+        case 3:
+          _context6.prev = 3;
+          _context6.next = 6;
           return _user.userService.deleteUser(id);
-        case 4:
-          res.status(204).json({
+        case 6:
+          res.status(200).json({
             message: "User deleted"
           });
-          _context6.next = 10;
+          _context6.next = 12;
           break;
-        case 7:
-          _context6.prev = 7;
-          _context6.t0 = _context6["catch"](1);
+        case 9:
+          _context6.prev = 9;
+          _context6.t0 = _context6["catch"](3);
           (0, _errorHandler["default"])(_context6.t0, res);
-        case 10:
+        case 12:
         case "end":
           return _context6.stop();
       }
-    }, _callee6, null, [[1, 7]]);
+    }, _callee6, null, [[3, 9]]);
   }));
   return function deleteUser(_x11, _x12) {
     return _ref6.apply(this, arguments);

@@ -211,15 +211,15 @@ var deleteClub = /*#__PURE__*/function () {
 }();
 var addAdmin = /*#__PURE__*/function () {
   var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(req, res) {
-    var clubId, userId, club;
+    var clubId, userIds, club;
     return _regeneratorRuntime().wrap(function _callee7$(_context7) {
       while (1) switch (_context7.prev = _context7.next) {
         case 0:
           clubId = req.params.id;
-          userId = req.body.userId;
+          userIds = req.body.userIds;
           _context7.prev = 2;
           _context7.next = 5;
-          return _club2.clubService.addAdmin(clubId, userId);
+          return _club2.clubService.addAdmin(clubId, userIds);
         case 5:
           club = _context7.sent;
           res.json(club);
