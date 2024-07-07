@@ -24,6 +24,8 @@ export default function Home() {
     });
   }
 
+  console.log(data)
+
   return (
     <main className="container max-w-8xl min-h-screen mt-8">
       <section className="h-[50vh] relative isolate">
@@ -83,7 +85,7 @@ export default function Home() {
                       {truncate(event.description, 100)}
                     </p>
                     <p className="mt-2 text-gray-500">
-                      By {event.organizer.name}
+                      By {event.organizer?.name || "Unknown"}
                     </p>
                   </div>
                 </div>

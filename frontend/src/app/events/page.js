@@ -64,7 +64,7 @@ export default function Page() {
                       {truncate(event.description, 100)}
                     </p>
                     <p className="mt-2 text-gray-500">
-                      By {event.organizer.name}
+                      By {event.organizer?.name || "Unknown"}
                     </p>
                   </div>
                 </div>

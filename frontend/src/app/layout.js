@@ -23,7 +23,7 @@ export default async function RootLayout({ children }) {
           {children}
           <Footer />
           <Toaster />
-          <ReactQueryDevtools initialIsOpen={false} />
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </ReactQueryProvider>
       </body>
     </html>

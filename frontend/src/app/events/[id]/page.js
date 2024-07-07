@@ -126,12 +126,16 @@ export default function Page({ params }) {
           </section>
 
           <section className="col-span-1 space-y-4">
-            <div className="border p-4 rounded-lg">
-              <h5 className="text-xl font-bold">{eventData?.organizer.name}</h5>
-              <p className="mt-2 text-gray-600">
-                {eventData?.organizer.description}
-              </p>
-            </div>
+            {eventData.organizer && (
+              <div className="border p-4 rounded-lg">
+                <h5 className="text-xl font-bold">
+                  {eventData?.organizer.name}
+                </h5>
+                <p className="mt-2 text-gray-600">
+                  {eventData?.organizer.description}
+                </p>
+              </div>
+            )}
 
             <div className="border p-4 rounded-lg">
               <div className="flex items-center gap-4">
