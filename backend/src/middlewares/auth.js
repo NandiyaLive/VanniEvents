@@ -14,7 +14,7 @@ const extractToken = (req) => {
     : null;
 };
 
-const authenticate = async (req, res, next) => {
+const validateToken = async (req, res, next) => {
   const token = extractToken(req);
 
   if (!token) {
@@ -36,37 +36,32 @@ const authenticate = async (req, res, next) => {
   }
 };
 
-const superAdminProtect = async (req, res, next) => {
-  if (!req.user?.role || req.user.role !== "superadmin") {
-    return res.status(403).json({
-      user: {
-        id: req.user._id,
-        email: req.user.email,
-        role: req.user.role,
-      },
-      message: "You have to be a super admin to access this resource",
-    });
-  }
+const validateUserRoles = (roles) => {
+  return async (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({
+        user: {
+          id: req.user._id,
+          email: req.user.email,
+          role: req.user.role,
+        },
+        message: `You have to be a ${roles.join(
+          " or "
+        )} to access this resource`,
+      });
+    }
 
-  next();
+    next();
+  };
 };
 
-const adminProtect = async (req, res, next) => {
-  if (!req.user.role || req.user.role !== "admin") {
-    return res.status(403).json({
-      user: {
-        id: req.user._id,
-        email: req.user.email,
-        role: req.user.role,
-      },
-      message: "You have to be a super admin to access this resource",
-    });
+const validateClubAdmin = async (req, res, next) => {
+  const { clubId } = req.body;
+
+  if (!clubId) {
+    return res.status(400).json({ message: "Club ID is required" });
   }
 
-  next();
-};
-
-const clubAdminProtect = async (req, res, next) => {
   if (!req.user.role || req.user.role !== "admin") {
     return res.status(403).json({
       user: {
@@ -78,7 +73,6 @@ const clubAdminProtect = async (req, res, next) => {
     });
   }
 
-  const { clubId } = req.body;
   const userId = req.user._id;
 
   const isClubAdmin = await clubService.checkAdmin(clubId, userId);
@@ -97,4 +91,4 @@ const clubAdminProtect = async (req, res, next) => {
   next();
 };
 
-export { adminProtect, authenticate, clubAdminProtect, superAdminProtect };
+export { validateToken, validateUserRoles, validateClubAdmin };

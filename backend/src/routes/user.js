@@ -1,14 +1,14 @@
 import express from "express";
 import { userController } from "@/controllers/user";
-import { superAdminProtect } from "@/middlewares/auth";
+import { validateUserRoles } from "@/middlewares/auth";
 
 const user = express.Router();
 
-user.get("/", userController.getAllUsers);
+user.get("/", validateUserRoles(["superadmin"]), userController.getAllUsers);
 
 user.get("/:id", userController.getUserById);
 
-user.patch("/:id", superAdminProtect, userController.updateUser);
+user.patch("/:id", userController.updateUser);
 
 user.delete("/:id", userController.deleteUser);
 

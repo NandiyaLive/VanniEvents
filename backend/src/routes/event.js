@@ -1,5 +1,5 @@
 import { eventController } from "@/controllers/event";
-import { authenticate, clubAdminProtect } from "@/middlewares/auth";
+import { validateToken, validateClubAdmin } from "@/middlewares/auth";
 import validateData from "@/middlewares/validate";
 import { eventSchema } from "@/validations/event";
 
@@ -8,38 +8,29 @@ import express from "express";
 const event = express.Router();
 
 event.get("/", eventController.getEvents);
+
+event.get("/:id", eventController.getEventById);
+
 event.post(
   "/",
-  authenticate,
-  clubAdminProtect,
+  validateToken,
+  validateClubAdmin,
   validateData(eventSchema),
   eventController.createEvent
 );
-event.get("/:id", eventController.getEventById);
+
 event.patch(
   "/:id",
-  authenticate,
-  clubAdminProtect,
+  validateToken,
+  validateClubAdmin,
   eventController.updateEvent
 );
+
 event.delete(
   "/:id",
-  authenticate,
-  clubAdminProtect,
+  validateToken,
+  validateClubAdmin,
   eventController.deleteEvent
-);
-event.post("/:id/attendees", authenticate, eventController.addAttendee);
-event.get(
-  "/:id/attendees",
-  authenticate,
-  clubAdminProtect,
-  eventController.getAttendees
-);
-event.delete(
-  "/:id/attendees/:userId",
-  authenticate,
-  clubAdminProtect,
-  eventController.removeAttendee
 );
 
 export default event;

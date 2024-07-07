@@ -1,4 +1,4 @@
-import { authenticate } from "@/middlewares/auth";
+import { validateToken } from "@/middlewares/auth";
 import Status from "@/models/status";
 import express from "express";
 import mongoose from "mongoose";
@@ -29,9 +29,9 @@ router.get("/", (req, res) => {
 });
 
 router.use("/auth", authRoutes);
-router.use("/users", authenticate, userRoutes);
+router.use("/users", validateToken, userRoutes);
 router.use("/clubs", clubRoutes);
 router.use("/events", eventRoutes);
-router.use("/tickets", ticketRoutes);
+router.use("/tickets", validateToken, ticketRoutes);
 
 export default router;

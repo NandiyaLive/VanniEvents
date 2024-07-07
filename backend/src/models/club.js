@@ -30,12 +30,6 @@ const ClubSchema = Schema(
       ],
       required: true,
     },
-    events: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Event",
-      },
-    ],
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

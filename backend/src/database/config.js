@@ -8,8 +8,6 @@ const connectWithRetry = () => {
       connectTimeoutMS: 10000,
       serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
     })
     .catch((error) => {
       console.error(

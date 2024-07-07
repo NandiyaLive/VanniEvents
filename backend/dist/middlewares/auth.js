@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.superAdminProtect = exports.clubAdminProtect = exports.authenticate = exports.adminProtect = void 0;
+exports.superAdminProtect = exports.clubAdminProtect = exports.checkUserRoles = exports.authenticate = exports.adminProtect = void 0;
 var _user = _interopRequireDefault(require("../models/user"));
 var _club = require("../services/club");
 var _config = require("../utils/config");
@@ -125,36 +125,57 @@ var adminProtect = exports.adminProtect = /*#__PURE__*/function () {
     return _ref3.apply(this, arguments);
   };
 }();
+var checkUserRoles = exports.checkUserRoles = function checkUserRoles(roles) {
+  return /*#__PURE__*/function () {
+    var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res, next) {
+      return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+        while (1) switch (_context4.prev = _context4.next) {
+          case 0:
+            if (roles.includes(req.user.role)) {
+              _context4.next = 2;
+              break;
+            }
+            return _context4.abrupt("return", res.status(403).json({
+              user: {
+                id: req.user._id,
+                email: req.user.email,
+                role: req.user.role
+              },
+              message: "You have to be a ".concat(roles.join(" or "), " to access this resource")
+            }));
+          case 2:
+            next();
+          case 3:
+          case "end":
+            return _context4.stop();
+        }
+      }, _callee4);
+    }));
+    return function (_x10, _x11, _x12) {
+      return _ref4.apply(this, arguments);
+    };
+  }();
+};
 var clubAdminProtect = exports.clubAdminProtect = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res, next) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res, next) {
     var clubId, userId, isClubAdmin;
-    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-      while (1) switch (_context4.prev = _context4.next) {
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      while (1) switch (_context5.prev = _context5.next) {
         case 0:
-          if (!(!req.user.role || req.user.role !== "admin")) {
-            _context4.next = 2;
-            break;
-          }
-          return _context4.abrupt("return", res.status(403).json({
-            user: {
-              id: req.user._id,
-              email: req.user.email,
-              role: req.user.role
-            },
-            message: "You have to be an admin of the club to access this resource"
-          }));
-        case 2:
           clubId = req.body.clubId;
-          userId = req.user._id;
-          _context4.next = 6;
-          return _club.clubService.checkAdmin(clubId, userId);
-        case 6:
-          isClubAdmin = _context4.sent;
-          if (isClubAdmin) {
-            _context4.next = 9;
+          if (clubId) {
+            _context5.next = 3;
             break;
           }
-          return _context4.abrupt("return", res.status(403).json({
+          return _context5.abrupt("return", res.status(400).json({
+            message: "Club ID is required"
+          }));
+        case 3:
+          if (!(!req.user.role || req.user.role !== "admin")) {
+            _context5.next = 5;
+            break;
+          }
+          return _context5.abrupt("return", res.status(403).json({
             user: {
               id: req.user._id,
               email: req.user.email,
@@ -162,15 +183,33 @@ var clubAdminProtect = exports.clubAdminProtect = /*#__PURE__*/function () {
             },
             message: "You have to be an admin of the club to access this resource"
           }));
-        case 9:
+        case 5:
+          userId = req.user._id;
+          _context5.next = 8;
+          return _club.clubService.checkAdmin(clubId, userId);
+        case 8:
+          isClubAdmin = _context5.sent;
+          if (isClubAdmin) {
+            _context5.next = 11;
+            break;
+          }
+          return _context5.abrupt("return", res.status(403).json({
+            user: {
+              id: req.user._id,
+              email: req.user.email,
+              role: req.user.role
+            },
+            message: "You have to be an admin of the club to access this resource"
+          }));
+        case 11:
           next();
-        case 10:
+        case 12:
         case "end":
-          return _context4.stop();
+          return _context5.stop();
       }
-    }, _callee4);
+    }, _callee5);
   }));
-  return function clubAdminProtect(_x10, _x11, _x12) {
-    return _ref4.apply(this, arguments);
+  return function clubAdminProtect(_x13, _x14, _x15) {
+    return _ref5.apply(this, arguments);
   };
 }();
