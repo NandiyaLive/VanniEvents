@@ -5,7 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var errorHandler = function errorHandler(err, res) {
-  console.log(err);
   if (err.name === "ZodError") {
     var errorMessages = err.errors.map(function (issue) {
       return {

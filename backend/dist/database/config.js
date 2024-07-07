@@ -12,9 +12,7 @@ var connectWithRetry = function connectWithRetry() {
   return _mongoose["default"].connect(_config.MONGO_URI, {
     connectTimeoutMS: 10000,
     serverSelectionTimeoutMS: 10000,
-    socketTimeoutMS: 45000,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+    socketTimeoutMS: 45000
   })["catch"](function (error) {
     console.error("MongoDB connection unsuccessful, retry after 5 seconds.", error);
     setTimeout(connectWithRetry, 5000);

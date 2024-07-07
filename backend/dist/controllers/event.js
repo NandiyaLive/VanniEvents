@@ -177,107 +177,10 @@ var deleteEvent = /*#__PURE__*/function () {
     return _ref5.apply(this, arguments);
   };
 }();
-var addAttendee = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(req, res) {
-    var id, userId, event;
-    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-      while (1) switch (_context6.prev = _context6.next) {
-        case 0:
-          id = req.params.id;
-          userId = req.body.userId;
-          _context6.prev = 2;
-          _context6.next = 5;
-          return _event.eventService.addAttendee(id, userId);
-        case 5:
-          event = _context6.sent;
-          res.status(200).json(event);
-          _context6.next = 12;
-          break;
-        case 9:
-          _context6.prev = 9;
-          _context6.t0 = _context6["catch"](2);
-          res.status(400).json({
-            message: _context6.t0.message
-          });
-        case 12:
-        case "end":
-          return _context6.stop();
-      }
-    }, _callee6, null, [[2, 9]]);
-  }));
-  return function addAttendee(_x11, _x12) {
-    return _ref6.apply(this, arguments);
-  };
-}();
-var removeAttendee = /*#__PURE__*/function () {
-  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(req, res) {
-    var _req$params, id, userId, event;
-    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-      while (1) switch (_context7.prev = _context7.next) {
-        case 0:
-          _req$params = req.params, id = _req$params.id, userId = _req$params.userId;
-          _context7.prev = 1;
-          _context7.next = 4;
-          return _event.eventService.removeAttendee(id, userId);
-        case 4:
-          event = _context7.sent;
-          res.status(200).json(event);
-          _context7.next = 11;
-          break;
-        case 8:
-          _context7.prev = 8;
-          _context7.t0 = _context7["catch"](1);
-          res.status(400).json({
-            message: _context7.t0.message
-          });
-        case 11:
-        case "end":
-          return _context7.stop();
-      }
-    }, _callee7, null, [[1, 8]]);
-  }));
-  return function removeAttendee(_x13, _x14) {
-    return _ref7.apply(this, arguments);
-  };
-}();
-var getAttendees = /*#__PURE__*/function () {
-  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(req, res) {
-    var id, event;
-    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
-      while (1) switch (_context8.prev = _context8.next) {
-        case 0:
-          id = req.params.id;
-          _context8.prev = 1;
-          _context8.next = 4;
-          return _event.eventService.getAttendees(id);
-        case 4:
-          event = _context8.sent;
-          res.status(200).json(event);
-          _context8.next = 11;
-          break;
-        case 8:
-          _context8.prev = 8;
-          _context8.t0 = _context8["catch"](1);
-          res.status(404).json({
-            message: "Event not found"
-          });
-        case 11:
-        case "end":
-          return _context8.stop();
-      }
-    }, _callee8, null, [[1, 8]]);
-  }));
-  return function getAttendees(_x15, _x16) {
-    return _ref8.apply(this, arguments);
-  };
-}();
 var eventController = exports.eventController = {
   createEvent: createEvent,
   getEvents: getEvents,
   getEventById: getEventById,
   updateEvent: updateEvent,
-  deleteEvent: deleteEvent,
-  addAttendee: addAttendee,
-  removeAttendee: removeAttendee,
-  getAttendees: getAttendees
+  deleteEvent: deleteEvent
 };

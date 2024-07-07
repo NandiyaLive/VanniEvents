@@ -31,8 +31,8 @@ router.get("/", function (req, res) {
   });
 });
 router.use("/auth", _auth2["default"]);
-router.use("/users", _auth.authenticate, _user["default"]);
+router.use("/users", _auth.validateToken, _user["default"]);
 router.use("/clubs", _club["default"]);
 router.use("/events", _event["default"]);
-router.use("/tickets", _ticket["default"]);
+router.use("/tickets", _auth.validateToken, _ticket["default"]);
 var _default = exports["default"] = router;
